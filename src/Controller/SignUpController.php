@@ -12,6 +12,7 @@ class SignUpController
 {
     public function signUp(Request $request, SessionInterface $session): Response
     {
+        dd($request);
         $usersEmail = $request->get('signUpEmail');
         $usersPassword = $request->get('signUpPassword');
 

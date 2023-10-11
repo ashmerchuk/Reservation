@@ -8,4 +8,4 @@ login:
 sign_up:
     path: /sign_up
     methods: POST
-    controller: App\Controller\SignUpController::signUp
+    controller: App\Controller\LoginController::signUp
