@@ -1,0 +1,13 @@
+{% extends './base.html.twig' %}
+        {% block body %}
+            {{ parent() }}
+            <div>
+                <h1>Login</h1>
+                <form class="form" method="post" action="{{ path('sign_up') }}">
+                    <input type="email" name="signUpEmail" placeholder="Your email">
+                    <input type="password" name="signUpPassword" placeholder="Your password">
+                    <button class="btn btn-outline-success successButton" title="Sign Up" type="submit"> Add
+                    </button>
+                </form>
+            </div>
+        {% endblock %}
