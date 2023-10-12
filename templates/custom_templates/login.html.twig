@@ -10,4 +10,13 @@
                     </button>
                 </form>
             </div>
+            <div>
+                <h1>Sign In</h1>
+                <form class="form" method="post" action="{{ path('sign_in') }}">
+                    <input type="email" name="signInEmail" placeholder="Your email">
+                    <input type="password" name="signInPassword" placeholder="Your password">
+                    <button class="btn btn-outline-success successButton" title="Sign Up" type="submit"> Sign in
+                    </button>
+                </form>
+            </div>
         {% endblock %}

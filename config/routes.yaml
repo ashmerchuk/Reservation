@@ -9,3 +9,7 @@ sign_up:
     path: /sign_up
     methods: POST
     controller: App\Controller\LoginController::signUp
+sign_in:
+    path: /sign_in
+    methods: POST
+    controller: App\Controller\LoginController::signIn
