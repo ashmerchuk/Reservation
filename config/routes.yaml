@@ -10,7 +10,7 @@ sign_up:
     methods: POST
     controller: App\Controller\LoginController::signUp
 sign_in:
-    path: /sign_in
+    path: /all_reservation
     methods: POST
     controller: App\Controller\LoginController::signIn
 logout:

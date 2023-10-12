@@ -21,6 +21,7 @@ class LoginController extends AbstractController
     public function signUp(Request $request, SessionInterface $session): Response
     {
         $usersEmail = $request->get('signUpEmail');
+        $usersName = $request->get('signUpName');
         $usersPassword = $request->get('signUpPassword');
 
         $servername = "reservation-mysql";
@@ -35,11 +36,11 @@ class LoginController extends AbstractController
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $createtable = "CREATE TABLE IF NOT EXISTS `reservation` (`id` int AUTO_INCREMENT, `email` varchar(255), `password` varchar(255), `user_id` varchar(255), PRIMARY KEY (`id`))";
+        $createtable = "CREATE TABLE IF NOT EXISTS `users` (`id` int AUTO_INCREMENT, `email` varchar(255), `name` varchar(255), `password` varchar(255), `user_id` varchar(255), PRIMARY KEY (`id`))";
         $result = $conn->query($createtable);
 
         $hashedPassword = password_hash($usersPassword, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO reservation (email, password) VALUES ('$usersEmail', '$hashedPassword')";
+        $sql = "INSERT INTO `users` (email, name, password) VALUES ('$usersEmail', '$usersName', '$hashedPassword')";
         $result = $conn->query($sql);
         $conn->close();
 
@@ -63,7 +64,7 @@ class LoginController extends AbstractController
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT email, password FROM reservation WHERE email = '$usersEmail'";
+        $sql = "SELECT email, password FROM `users` WHERE email = '$usersEmail'";
         $stmt = $conn->prepare($sql);
         $result = $conn->query($sql);
         if ($result) {
@@ -75,12 +76,13 @@ class LoginController extends AbstractController
                 if (password_verify($usersPassword, $hashedPassword)) {
                     // Password is correct. You can proceed with authentication.
 
-                    $sql = "SELECT id FROM reservation WHERE email = '$usersEmail'";
+                    $sql = "SELECT id, name FROM `users` WHERE email = '$usersEmail'";
                     $stmt = $conn->prepare($sql);
                     $result = $conn->query($sql);
                     if ($result) {
                         $row = $result->fetch_assoc();
                         $userId = $row['id'];
+                        $usersName = $row['name'];
                         if (session_status() !== PHP_SESSION_ACTIVE) {
                             session_start();
                             $_SESSION['user_id'] = $userId;
@@ -90,6 +92,7 @@ class LoginController extends AbstractController
                     }
                     return $this->render('custom_templates/reservationPage.html.twig',[
                         'userId' => $userId,
+                        'usersName' => $usersName,
                         'email' => $usersEmail
                 ]);
                 }

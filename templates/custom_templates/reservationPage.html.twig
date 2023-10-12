@@ -3,8 +3,8 @@
 {% block body %}
     {{ parent() }}
     <div>
-        {% if email is defined %}
-            <h1>Welcome, {{ email }}!</h1>
+        {% if usersName is defined %}
+            <h1>Welcome, {{ usersName }}!</h1>
         {% else %}
             <h1>Welcome!</h1>
         {% endif %}
