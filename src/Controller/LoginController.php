@@ -38,14 +38,15 @@ class LoginController extends AbstractController
         $createtable = "CREATE TABLE IF NOT EXISTS `reservation` (`id` int AUTO_INCREMENT, `email` varchar(255), `password` varchar(255), `user_id` varchar(255), PRIMARY KEY (`id`))";
         $result = $conn->query($createtable);
 
-        $sql = "INSERT INTO reservation (email, password) VALUES ('$usersEmail', '$usersPassword')";
+        $hashedPassword = password_hash($usersPassword, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO reservation (email, password) VALUES ('$usersEmail', '$hashedPassword')";
         $result = $conn->query($sql);
-
         $conn->close();
 
         echo "Connected successfully";
         return $this->redirectToRoute('login');
     }
+
     public function signIn(Request $request): Response
     {
         $usersEmail = $request->get('signInEmail');
@@ -63,29 +64,20 @@ class LoginController extends AbstractController
             die("Connection failed: " . $conn->connect_error);
         }
 
-// Prepare the SQL query with placeholders
-        $sql = "SELECT * FROM reservation WHERE email = ? AND password = ?";
-
-// Create a prepared statement
+        $sql = "SELECT email, password FROM reservation WHERE email = '$usersEmail'";
         $stmt = $conn->prepare($sql);
 
-//        dd($stmt);
-        if ($stmt) {
-            // Bind the parameters to the placeholders
-            $stmt->bind_param("ss", $usersEmail, $usersPassword);
-
-            // Execute the query
-            $stmt->execute();
-
-            // Get the result
-            $result = $stmt->get_result();
-            // Fetch the data
+        $result = $conn->query($sql);
+        if ($result) {
             $row = $result->fetch_assoc();
 
             if ($row) {
-                return $this->render(
-                    'custom_templates/reservationPage.html.twig'
-                );
+                $hashedPassword = $row['password'];
+                password_verify($usersPassword, $hashedPassword);
+                if (password_verify($usersPassword, $hashedPassword)) {
+                    // Password is correct. You can proceed with authentication.
+                    return $this->render('custom_templates/reservationPage.html.twig');
+                }
             }
         }
         return $this->redirectToRoute('login');
