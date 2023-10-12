@@ -3,28 +3,87 @@
             {{ parent() }}
             <style>
                 /* Add space between input elements */
-                input {
-                    margin-right: 10px;
+                /* styles.css */
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    margin: 0;
+                    padding: 0;
                 }
+
+                .container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
+
+                .content {
+                    width: 30%; /* Set the width you desire */
+                }
+
+                .form-container {
+                    margin-top: 25px;
+                    background-color: #fff;
+                    padding: 20px;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                }
+
+                h1 {
+                    text-align: center;
+                }
+
+                form {
+                    text-align: center;
+                }
+
+                input {
+                    width: 80%;
+                    padding: 10px;
+                    margin: 10px 0;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                }
+
+                button {
+                    width: 30%;
+                    padding: 10px;
+                    margin: 3% 0 3% 55%;
+                    background-color: #4CAF50;
+                    color: #fff;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+
+                button:hover {
+                    background-color: #45a049;
+                }
+
             </style>
 
-            <div>
-                <h1>Login</h1>
-                <form class="form" method="post" action="{{ path('sign_up') }}">
-                    <input type="text" name="signUpName" placeholder="Your name">
-                    <input type="email" name="signUpEmail" placeholder="Your email">
-                    <input type="password" name="signUpPassword" placeholder="Your password">
-                    <button class="btn btn-outline-success successButton" title="Sign Up" type="submit"> Add
-                    </button>
-                </form>
+
+        <div class="container">
+            <div class="content">
+                <div class="form-container">
+                    <h1>Login</h1>
+                    <form method="post" action="{{ path('sign_up') }}">
+                        <input type="text" name="signUpName" placeholder="Your name">
+                        <input type="email" name="signUpEmail" placeholder="Your email">
+                        <input type="password" name="signUpPassword" placeholder="Your password">
+                        <button class="btn btn-outline-success successButton" title="Sign Up" type="submit"> Add </button>
+                    </form>
+                </div>
+                <div class="form-container">
+                    <h1>Sign In</h1>
+                    <form method="post" action="{{ path('sign_in') }}">
+                        <input type="email" name="signInEmail" placeholder="Your email">
+                        <input type="password" name="signInPassword" placeholder="Your password">
+                        <button class="btn btn-outline-success successButton" title="Sign Up" type="submit"> Sign in </button>
+                    </form>
+                </div>
             </div>
-            <div>
-                <h1>Sign In</h1>
-                <form class="form" method="post" action="{{ path('sign_in') }}">
-                    <input type="email" name="signInEmail" placeholder="Your email">
-                    <input type="password" name="signInPassword" placeholder="Your password">
-                    <button class="btn btn-outline-success successButton" title="Sign Up" type="submit"> Sign in
-                    </button>
-                </form>
-            </div>
+        </div>
+
         {% endblock %}
