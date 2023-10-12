@@ -43,7 +43,6 @@ class LoginController extends AbstractController
         $result = $conn->query($sql);
         $conn->close();
 
-        echo "Connected successfully";
         return $this->redirectToRoute('login');
     }
 
@@ -66,7 +65,6 @@ class LoginController extends AbstractController
 
         $sql = "SELECT email, password FROM reservation WHERE email = '$usersEmail'";
         $stmt = $conn->prepare($sql);
-
         $result = $conn->query($sql);
         if ($result) {
             $row = $result->fetch_assoc();
@@ -76,9 +74,33 @@ class LoginController extends AbstractController
                 password_verify($usersPassword, $hashedPassword);
                 if (password_verify($usersPassword, $hashedPassword)) {
                     // Password is correct. You can proceed with authentication.
-                    return $this->render('custom_templates/reservationPage.html.twig');
+
+                    $sql = "SELECT id FROM reservation WHERE email = '$usersEmail'";
+                    $stmt = $conn->prepare($sql);
+                    $result = $conn->query($sql);
+                    if ($result) {
+                        $row = $result->fetch_assoc();
+                        $userId = $row['id'];
+                        if (session_status() !== PHP_SESSION_ACTIVE) {
+                            session_start();
+                            $_SESSION['user_id'] = $userId;
+                        }
+                    }else{
+                        return $this->redirectToRoute('login');
+                    }
+                    return $this->render('custom_templates/reservationPage.html.twig',[
+                        'userId' => $userId,
+                        'email' => $usersEmail
+                ]);
                 }
             }
+        }
+        return $this->redirectToRoute('login');
+    }
+
+    public function logout (): Response{
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_destroy();
         }
         return $this->redirectToRoute('login');
     }
