@@ -25,26 +25,46 @@
             background-color: #7fe5d6;
         }
 
+        h2 {
+            font-family: "Arial", sans-serif;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-left: 150px; /* Shift to the right by 100px */
+        }
+
         button {
-            width: auto; /* Let the button size itself to fit the text */
-            padding: 10px;
+            width: 100px;
+            height: 42px;
             background-color: #ef1940;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-right: 50px;
+            font-size: 16px; /* Adjust the font size as needed */
+            font-family: 'Arial', sans-serif; /* Change the font family */
+            padding: 5px 10px; /* Adjust padding for better text positioning */
         }
 
         button:hover {
-            background-color: #ef1940;
+            color: #ef1940;
+            background-color: #fff;
+            border: 3px solid #ef1940; /* Add the red border */
         }
+
     </style>
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <div style="flex-grow: 1;">
             {% if usersName is defined %}
-                <h1 style="text-align: center;">Welcome, {{ usersName }}!</h1>
+                <div class="welcome-text">
+                    <h1>Welcome, {{ usersName }}!</h1>
+                </div>
             {% else %}
-                <h1 style="text-align: center;">Welcome!</h1>
+                <div class="welcome-text">
+                    <h1>Welcome!</h1>
+                </div>
             {% endif %}
         </div>
         <form class="form" method="get" action="{{ path('logout') }}">
@@ -52,7 +72,18 @@
         </form>
     </div>
 
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <h2 style="margin-right: 20px; font-family: 'Arial', sans-serif; font-size: 24px;">Date Of Reservation</h2>
+        <form method="post" action="{{ path('all_reservation') }}">
+            <input type="date" name="dateOfReservation"
+                   style="font-family: 'Arial', sans-serif; font-size: 18px; height: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            <button type="submit">Pick</button>
+        </form>
+    </div>
 
+    <div style="text-align: center;">
+        <h2>Choose a one</h2>
+    </div>
     <div class="room-list">
         <ul>
             {% for room in rooms %}
@@ -60,5 +91,4 @@
             {% endfor %}
         </ul>
     </div>
-
 {% endblock %}
