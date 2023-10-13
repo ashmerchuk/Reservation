@@ -1,15 +1,38 @@
 {% extends './base.html.twig' %}
 
 {% block body %}
-    {{ parent() }}
-    <div>
+    <style>
+        .room-list ul {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Center items horizontally within the container */
+            list-style: none;
+            padding: 0;
+        }
+
+        .room-list li {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 5px;
+            text-align: center;
+            width: 45%;
+        }
+    </style>
+    <div style="text-align: center;">
         {% if usersName is defined %}
             <h1>Welcome, {{ usersName }}!</h1>
         {% else %}
             <h1>Welcome!</h1>
         {% endif %}
+            </div>
+            <div class="room-list">
+            <ul>
+            {% for room in rooms %}
+            <li>{{ room }}</li>
+        {% endfor %}
+        </ul>
     </div>
-    <div>
+    <div style="display: flex; justify-content: center;">
         <form class="form" method="get" action="{{ path('logout') }}">
             <button>Logout</button>
         </form>

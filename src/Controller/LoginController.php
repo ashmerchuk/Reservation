@@ -90,10 +90,36 @@ class LoginController extends AbstractController
                     }else{
                         return $this->redirectToRoute('login');
                     }
+
+                    $createtable = "CREATE TABLE IF NOT EXISTS `rooms` (`id` int AUTO_INCREMENT,`name` varchar(255),`image` varchar(255), PRIMARY KEY (id));";
+                    $result = $conn->query($createtable);
+//                    dd($result);
+                    if($result) {
+                        $sql = "SELECT * FROM `rooms`";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows  == 0) {
+                            $sql = "INSERT INTO rooms (name) VALUES
+                                ('Hafencity'),
+                                ('Fischmarkt')";
+                            $result = $conn->query($sql);
+                        }
+                    }
+
+                    //Adding array with rooms name to use it in template
+                    $sql = "SELECT name FROM rooms";
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $rooms[] = $row['name'];
+                        }
+                    }
+
                     return $this->render('custom_templates/reservationPage.html.twig',[
                         'userId' => $userId,
                         'usersName' => $usersName,
-                        'email' => $usersEmail
+                        'email' => $usersEmail,
+                        'rooms' => $rooms
                 ]);
                 }
             }
