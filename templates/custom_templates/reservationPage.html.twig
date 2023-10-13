@@ -16,25 +16,49 @@
             margin: 5px;
             text-align: center;
             width: 45%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Arial", sans-serif; /* Change the font family */
+            font-size: 18px; /* Increase the font size */
+            background-color: #7fe5d6;
+        }
+
+        button {
+            width: auto; /* Let the button size itself to fit the text */
+            padding: 10px;
+            background-color: #ef1940;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ef1940;
         }
     </style>
-    <div style="text-align: center;">
-        {% if usersName is defined %}
-            <h1>Welcome, {{ usersName }}!</h1>
-        {% else %}
-            <h1>Welcome!</h1>
-        {% endif %}
-            </div>
-            <div class="room-list">
-            <ul>
-            {% for room in rooms %}
-            <li>{{ room }}</li>
-        {% endfor %}
-        </ul>
-    </div>
-    <div style="display: flex; justify-content: center;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="flex-grow: 1;">
+            {% if usersName is defined %}
+                <h1 style="text-align: center;">Welcome, {{ usersName }}!</h1>
+            {% else %}
+                <h1 style="text-align: center;">Welcome!</h1>
+            {% endif %}
+        </div>
         <form class="form" method="get" action="{{ path('logout') }}">
             <button>Logout</button>
         </form>
     </div>
+
+
+    <div class="room-list">
+        <ul>
+            {% for room in rooms %}
+                <li>{{ room }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
 {% endblock %}
