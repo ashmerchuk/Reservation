@@ -7,6 +7,71 @@
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            <style>
+                /* Add space between input elements */
+                /* styles.css */
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
+
+                .content {
+                    width: 30%; /* Set the width you desire */
+                }
+
+                .form-container {
+                    margin-top: 25px;
+                    background-color: #fff;
+                    padding: 20px;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                }
+
+                h1 {
+                    text-align: center;
+                }
+
+                form {
+                    text-align: center;
+                }
+
+                input {
+                    width: 80%;
+                    padding: 10px;
+                    margin: 10px 0;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                }
+
+                button {
+                    width: 30%;
+                    padding: 10px;
+                    margin: 3% 0 3% 55%;
+                    background-color: #45a049;
+                    color: #fff;
+                    border: 1px solid #45a049;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 16px; /* Adjust the font size as needed */
+                    font-family: 'Arial', sans-serif; /* Change the font family */
+                }
+
+                button:hover {
+                    color: #45a049;
+                    background-color: #fff;
+                    border: 1px solid #45a049; /* Add the red border */
+                }
+
+            </style>
         {% endblock %}
 
         {% block javascripts %}

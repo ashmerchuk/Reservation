@@ -115,7 +115,7 @@ class LoginController extends AbstractController
                         }
                     }
 
-                    return $this->render('custom_templates/reservationPage.html.twig',[
+                    return $this->render('custom_templates/bookingForm.html.twig',[
                         'userId' => $userId,
                         'usersName' => $usersName,
                         'email' => $usersEmail,
