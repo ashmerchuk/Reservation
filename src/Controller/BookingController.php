@@ -103,19 +103,13 @@ class BookingController extends AbstractController
 
             $userId = $_SESSION['user_id'];
             $sql = "SELECT * FROM `users` WHERE id = '$userId'";
-//            $sql = "SELECT * FROM `users` WHERE email = '$usersEmail'";
             $stmt = $conn->prepare($sql);
             $result = $conn->query($sql);
 
             if ($result) {
                 $row = $result->fetch_assoc();
-//            dd($row);
                 $usersName = $row['name'];
                 $usersEmail = $row['email'];
-//                if (session_status() !== PHP_SESSION_ACTIVE) {
-//                    session_start();
-//                    $_SESSION['user_id'] = $userId;
-//                }
             } else {
                 return $this->redirectToRoute('login');
             }
@@ -132,6 +126,7 @@ class BookingController extends AbstractController
                 }
             }
 
+//            dd($thisDate, 'moinn');
             return $this->render('custom_templates/bookingForm.html.twig', [
                 'userId' => $userId,
                 'usersName' => $usersName,

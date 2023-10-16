@@ -20,7 +20,7 @@
     </div>
 
     <div class="center-content">
-        <h2 style="font-family: 'Arial', sans-serif; font-size: 24px;">Date Of Reservation</h2>
+        <h2 style="font-family: 'Arial', sans-serif; font-size: 24px;">Date of reservation</h2>
         <form method="get" action="{{ path('booking') }}" style="display: flex;">
             <input class="date" type="date" name="date">
             <button class="alert-btn pick" type="submit">Pick</button>
@@ -29,7 +29,9 @@
 
 
     <div style="text-align: center;">
-        <h2>Choose a room</h2>
+        {% if freeDeskCounts is defined and freeDeskCounts|length > 0 %}
+           <h2>Choose a room</h2>
+        {% endif %}
         {% if noReservationCount is defined %}
             <p>Free desks at {{ pikedDate }}: {{ noReservationCount }}</p>
         {% endif %}
@@ -42,21 +44,24 @@
                 {% if freeDeskCounts is defined and freeDeskCounts|length > 0 %}
                     {% for room in freeDeskCounts %}
                         <form method="post" action="{{ path('rooms', {'room_id': room.room_id}) }}" class="room-form">
+                            <input type="hidden" name="pikedDate" value="{{ pikedDate }}">
+                            <button class="room-btn" type="submit">
                             <li class="rooms">
                                 <h3>{{ room.room_name }}</h3>
                                 (Free Desks: {{ room.free_desk_count }})
                             </li>
+                            </button>
                         </form>
 
                     {% endfor %}
-                {% else %}
-                    {% for room in rooms %}
-                        <form method="get" class="room-form">
-                            <li class="unselected-rooms">
-                                <h3>{{ room }}</h3>
-                            </li>
-                        </form>
-                    {% endfor %}
+{#                {% else %}#}
+{#                    {% for room in rooms %}#}
+{#                        <form method="get" class="room-form">#}
+{#                            <li class="unselected-rooms">#}
+{#                                <h3>{{ room }}</h3>#}
+{#                            </li>#}
+{#                        </form>#}
+{#                    {% endfor %}#}
                 {% endif %}
             </div>
         </ul>
