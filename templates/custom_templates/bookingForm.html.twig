@@ -36,12 +36,19 @@
     </div>
     <div class="room-list">
         <ul>
-            {% for room in freeDeskCounts %}
-                <li>
-                    <h3>{{ room.room_name }}</h3>
-                    (Free Desks: {{ room.free_desk_count }})
-                </li>
-            {% endfor %}
+            {% if freeDeskCounts is defined and freeDeskCounts|length > 0 %}
+                {% for room in freeDeskCounts %}
+                    <li>
+                        <h3>{{ room.room_name }}</h3>
+                        (Free Desks: {{ room.free_desk_count }})
+                    </li>
+                {% endfor %}
+            {% else %}
+                {% for room in rooms %}
+                    <li>{{ room }}</li>
+                {% endfor %}
+            {% endif %}
         </ul>
     </div>
+
 {% endblock %}
