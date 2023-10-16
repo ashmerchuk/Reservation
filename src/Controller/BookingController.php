@@ -16,7 +16,7 @@ class BookingController extends AbstractController
             session_start();
         }
         if ($request->getMethod() == 'GET') {
-            $thisDate = $request->get('date');
+
 //            dd('moin');
             $servername = "reservation-mysql";
             $username = "root";
@@ -29,11 +29,56 @@ class BookingController extends AbstractController
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
-            $createTableReservations = "CREATE TABLE IF NOT EXISTS `reservations` (`id` int AUTO_INCREMENT,`desk_id` int,`reservation_time` datetime, `user_id` int, created_date datetime, PRIMARY KEY (id));";
-            $result = $conn->query($createTableReservations);
+            $createTableReservations = "CREATE TABLE IF NOT EXISTS `reservations` (`id` int AUTO_INCREMENT,`desk_id` int,`reservation_time` date, `user_id` int, created_date date, PRIMARY KEY (id));";
+            $resultTableReservations = $conn->query($createTableReservations);
 
             $createTableDesks = "CREATE TABLE IF NOT EXISTS `desks` (`id` int AUTO_INCREMENT,`room_id` int, `name` varchar(255), `description` varchar(255),  PRIMARY KEY (id), FOREIGN KEY (room_id) REFERENCES rooms(id));";
             $resultTableDesks = $conn->query($createTableDesks);
+            if($resultTableDesks){
+                $sql = "SELECT * FROM `desks`";
+                $result = $conn->query($sql);
+                if ($result->num_rows == 0) {
+                    $sql = "INSERT INTO desks (room_id) VALUES
+                                (1), (1), (1), (1), (2), (2), (2), (2)";
+                    $result = $conn->query($sql);
+                }
+            }
+
+            $thisDate = $request->get('date');
+
+            if ($thisDate !== null && $thisDate !== "") {
+                // Step 1: Count the number of reservations for the given date
+                $sqlReservations = "SELECT COUNT(*) AS reservation_count FROM reservations WHERE reservation_time = '$thisDate'";
+                $resultReservations = $conn->query($sqlReservations);
+//                dd($resultReservations);
+
+
+                if ($resultReservations) {
+                    $row = $resultReservations->fetch_assoc();
+                    $reservationCount = $row['reservation_count'];
+//                    dd($reservationCount);
+                    // Step 2: Count the number of desks with no reservations for the given date
+                    $sqlNoReservations = "SELECT COUNT(*) AS no_reservation_count FROM desks WHERE id NOT IN (SELECT desk_id FROM reservations WHERE reservation_time = '$thisDate')";
+                    $resultNoReservations = $conn->query($sqlNoReservations);
+
+                    if ($resultNoReservations) {
+                        $row = $resultNoReservations->fetch_assoc();
+                        $noReservationCount = $row['no_reservation_count'];
+
+                        // Now you have the counts for reservations and no-reserved desks
+//                        dd($noReservationCount);
+//                        echo "Reservations on $thisDate: $reservationCount<br>";
+//                        echo "No-reserved desks on $thisDate: $noReservationCount";
+                    }
+//                  else {
+//                        // Handle SQL query error for no-reserved desks
+//                        echo "Error retrieving no-reserved desks count";
+//                    }
+                } else {
+                    // Handle SQL query error for reservations
+                    echo "Error retrieving reservations count";
+                }
+            }
 
             $usersEmail = $request->get('signInEmail');
 //            if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -91,7 +136,8 @@ class BookingController extends AbstractController
                 'userId' => $userId,
                 'usersName' => $usersName,
                 'email' => $usersEmail,
-                'rooms' => $rooms
+                'rooms' => $rooms,
+                'noReservationCount' => $noReservationCount,
             ]);
         }
 
@@ -155,7 +201,7 @@ class BookingController extends AbstractController
             'userId' => $userId,
             'usersName' => $usersName,
             'email' => $usersEmail,
-            'rooms' => $rooms
+            'rooms' => $rooms,
         ]);
     }
 }
