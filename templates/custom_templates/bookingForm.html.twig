@@ -1,10 +1,6 @@
 {% extends './base.html.twig' %}
 
 {% block body %}
-    <style>
-
-
-    </style>
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <div style="flex-grow: 1;">
 {#            <h1>UserId: {{ userId }}</h1>#}
@@ -35,13 +31,16 @@
     <div style="text-align: center;">
         <h2>Choose a room</h2>
         {% if noReservationCount is defined %}
-            <p>Free desks Count: {{ noReservationCount }}</p>
+            <p>Free desks at {{ pikedDate }}: {{ noReservationCount }}</p>
         {% endif %}
     </div>
     <div class="room-list">
         <ul>
-            {% for room in rooms %}
-                <li>{{ room }}</li>
+            {% for room in freeDeskCounts %}
+                <li>
+                    <h3>{{ room.room_name }}</h3>
+                    (Free Desks: {{ room.free_desk_count }})
+                </li>
             {% endfor %}
         </ul>
     </div>

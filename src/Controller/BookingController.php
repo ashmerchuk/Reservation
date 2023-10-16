@@ -89,6 +89,22 @@ class BookingController extends AbstractController
 //            }
 
 //            dd($_SESSION['user_id']);
+
+            $selectedDate = $thisDate;
+            $sqlFreeDeskCount = "SELECT r.id AS room_id, r.name AS room_name, COUNT(d.id) AS free_desk_count
+                                FROM rooms r
+                                LEFT JOIN desks d ON r.id = d.room_id
+                                LEFT JOIN reservations re ON d.id = re.desk_id AND re.reservation_time = '$selectedDate'
+                                WHERE re.id IS NULL
+                                GROUP BY r.id";
+            $resultFreeDeskCount = $conn->query($sqlFreeDeskCount);
+
+            // Fetch the results into an array
+            $freeDeskCounts = $resultFreeDeskCount->fetch_all(MYSQLI_ASSOC);
+//            dd($freeDeskCounts);
+
+
+
             $userId = $_SESSION['user_id'];
             $sql = "SELECT * FROM `users` WHERE id = '$userId'";
 //            $sql = "SELECT * FROM `users` WHERE email = '$usersEmail'";
@@ -137,7 +153,9 @@ class BookingController extends AbstractController
                 'usersName' => $usersName,
                 'email' => $usersEmail,
                 'rooms' => $rooms,
+                'pikedDate' => $thisDate,
                 'noReservationCount' => $noReservationCount,
+                'freeDeskCounts' => $freeDeskCounts,
             ]);
         }
 
