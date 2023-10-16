@@ -79,31 +79,12 @@ class BookingController extends AbstractController
                     if ($resultNoReservations) {
                         $row = $resultNoReservations->fetch_assoc();
                         $noReservationCount = $row['no_reservation_count'];
-
-                        // Now you have the counts for reservations and no-reserved desks
-//                        dd($noReservationCount);
-//                        echo "Reservations on $thisDate: $reservationCount<br>";
-//                        echo "No-reserved desks on $thisDate: $noReservationCount";
                     }
-//                  else {
-//                        // Handle SQL query error for no-reserved desks
-//                        echo "Error retrieving no-reserved desks count";
-//                    }
                 } else {
                     // Handle SQL query error for reservations
                     echo "Error retrieving reservations count";
                 }
             }
-
-            $usersEmail = $request->get('signInEmail');
-//            if (session_status() !== PHP_SESSION_ACTIVE) {
-//                session_start();
-////                $_SESSION['user_id'] = $userId;
-//            } else {
-//                return $this->redirectToRoute('login');
-//            }
-
-//            dd($_SESSION['user_id']);
 
             $selectedDate = $thisDate;
             $sqlFreeDeskCount = "SELECT r.id AS room_id, r.name AS room_name, COUNT(d.id) AS free_desk_count

@@ -3,7 +3,7 @@
 {% block body %}
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <div style="flex-grow: 1;">
-{#            <h1>UserId: {{ userId }}</h1>#}
+            {#            <h1>UserId: {{ userId }}</h1> #}
             {% if usersName is defined %}
                 <div class="welcome-text">
                     <h1>Welcome, {{ usersName }}!</h1>
@@ -34,21 +34,34 @@
             <p>Free desks at {{ pikedDate }}: {{ noReservationCount }}</p>
         {% endif %}
     </div>
+
+
     <div class="room-list">
         <ul>
-            {% if freeDeskCounts is defined and freeDeskCounts|length > 0 %}
-                {% for room in freeDeskCounts %}
-                    <li class="rooms">
-                        <h3>{{ room.room_name }}</h3>
-                        (Free Desks: {{ room.free_desk_count }})
-                    </li>
-                {% endfor %}
-            {% else %}
-                {% for room in rooms %}
-                    <li>{{ room }}</li>
-                {% endfor %}
-            {% endif %}
+            <div class="row">
+                {% if freeDeskCounts is defined and freeDeskCounts|length > 0 %}
+                    {% for room in freeDeskCounts %}
+                        <form method="post" action="{{ path('rooms', {'room_id': room.room_id}) }}" class="room-form">
+                            <li class="rooms">
+                                <h3>{{ room.room_name }}</h3>
+                                (Free Desks: {{ room.free_desk_count }})
+                            </li>
+                        </form>
+
+                    {% endfor %}
+                {% else %}
+                    {% for room in rooms %}
+                        <form method="get" class="room-form">
+                            <li class="unselected-rooms">
+                                <h3>{{ room }}</h3>
+                            </li>
+                        </form>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </ul>
     </div>
+
+
 
 {% endblock %}

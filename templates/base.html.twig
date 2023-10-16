@@ -40,10 +40,6 @@
                     text-align: center;
                 }
 
-                form {
-                    text-align: center;
-                }
-
                 input {
                     width: 80%;
                     padding: 10px;
@@ -70,19 +66,38 @@
                     border: 1px solid #45a049;
                 }
                 .room-list ul {
-                    display: flex;
-                    flex-wrap: wrap;
-                    justify-content: center; /* Center items horizontally within the container */
                     list-style: none;
                     padding: 0;
                 }
 
+                .room-list .row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center; /* Center .row elements horizontally */
+                }
+
+                .room-list .rooms {
+                    border: 1px solid #000;
+                    padding: 10px;
+                    margin: 15px;
+                    text-align: center;
+                    width: 90%; /* 50% width with spacing */
+                    height: 100px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-family: "Arial", sans-serif;
+                    font-size: 18px;
+                    background-color: #7fe5d6;
+                }
+
+
                 .room-list li {
                     border: 1px solid #000;
                     padding: 10px;
-                    margin: 5px;
+                    margin: 15px;
                     text-align: center;
-                    width: 45%;
+                    width: 85%;
                     height: 100px;
                     display: flex;
                     justify-content: center;
@@ -91,11 +106,24 @@
                     font-size: 18px; /* Increase the font size */
                     background-color: #7fe5d6;
                 }
-                .rooms{
-                    
+                .room-list {
+                    display: flex;
+                    width: 100%;
+                    justify-content: center; /* Center its children horizontally */
                 }
+
+                .room-form {
+                    width: 100%;
+                    max-width: 50%; /* Adjust the maximum width as needed */
+                    padding: 0; /* Adjust padding as needed */
+                    border: none; /* Remove form border if needed */
+                }
+
                 .rooms:hover{
                     background: #bfeae4;
+                }
+                .unselected-rooms{
+                    width: 75%;
                 }
 
                 h2 {
