@@ -29,6 +29,21 @@ class BookingController extends AbstractController
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
+            $createTableRooms = "CREATE TABLE IF NOT EXISTS `rooms` (`id` int AUTO_INCREMENT,`name` varchar(255),`image` varchar(255), PRIMARY KEY (id));";
+            $result = $conn->query($createTableRooms);
+            if ($result) {
+                $sql = "SELECT * FROM `rooms`";
+                $result = $conn->query($sql);
+                if ($result->num_rows == 0) {
+                    $sql = "INSERT INTO rooms (name) VALUES
+                                ('Hafencity'),
+                                ('Fischmarkt'),
+                                ('Stadtpark'),
+                                ('Altona')";
+                    $result = $conn->query($sql);
+                }
+            }
+
             $createTableReservations = "CREATE TABLE IF NOT EXISTS `reservations` (`id` int AUTO_INCREMENT,`desk_id` int,`reservation_time` date, `user_id` int, created_date date, PRIMARY KEY (id));";
             $resultTableReservations = $conn->query($createTableReservations);
 
@@ -39,7 +54,7 @@ class BookingController extends AbstractController
                 $result = $conn->query($sql);
                 if ($result->num_rows == 0) {
                     $sql = "INSERT INTO desks (room_id) VALUES
-                                (1), (1), (1), (1), (2), (2), (2), (2)";
+                                (1), (1), (1), (1), (2), (2), (2), (2),(3), (3), (4), (4), (4), (4),(4), (4)";
                     $result = $conn->query($sql);
                 }
             }
@@ -124,19 +139,7 @@ class BookingController extends AbstractController
                 return $this->redirectToRoute('login');
             }
 
-            $createTableRooms = "CREATE TABLE IF NOT EXISTS `rooms` (`id` int AUTO_INCREMENT,`name` varchar(255),`image` varchar(255), PRIMARY KEY (id));";
-            $result = $conn->query($createTableRooms);
-//                    dd($result);
-            if ($result) {
-                $sql = "SELECT * FROM `rooms`";
-                $result = $conn->query($sql);
-                if ($result->num_rows == 0) {
-                    $sql = "INSERT INTO rooms (name) VALUES
-                                ('Hafencity'),
-                                ('Fischmarkt')";
-                    $result = $conn->query($sql);
-                }
-            }
+
 
             //Adding array with rooms name to use it in template
             $sql = "SELECT name FROM rooms";
@@ -200,7 +203,9 @@ class BookingController extends AbstractController
             if ($result->num_rows == 0) {
                 $sql = "INSERT INTO rooms (name) VALUES
                                 ('Hafencity'),
-                                ('Fischmarkt')";
+                                ('Fischmarkt'),
+                                ('Stadtpark'),
+                                ('Altona')";
                 $result = $conn->query($sql);
             }
         }

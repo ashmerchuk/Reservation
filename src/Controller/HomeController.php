@@ -135,7 +135,9 @@ class HomeController extends AbstractController
             if ($result->num_rows  == 0) {
                 $sql = "INSERT INTO rooms (name) VALUES
                                 ('Hafencity'),
-                                ('Fischmarkt')";
+                                ('Fischmarkt'),
+                                ('Stadtpark'),
+                                ('Altona')";
                 $result = $conn->query($sql);
             }
         }

@@ -38,7 +38,7 @@
         <ul>
             {% if freeDeskCounts is defined and freeDeskCounts|length > 0 %}
                 {% for room in freeDeskCounts %}
-                    <li>
+                    <li class="rooms">
                         <h3>{{ room.room_name }}</h3>
                         (Free Desks: {{ room.free_desk_count }})
                     </li>
