@@ -20,8 +20,23 @@
     </div>
 
     <div class="center-content">
-        <h2 style="font-family: 'Arial', sans-serif; font-size: 24px;">Date of reservation in room <span style="color: #579e2f">{{ roomName }}</span> for {{ date }}</h2>
+        <h2 style="font-family: 'Arial', sans-serif; font-size: 24px;">Date of reservation in room <span
+                    style="color: #579e2f">{{ roomName }}</span> for {{ date }}</h2>
 
+    </div>
+    <div class="room-list">
+        <ul>
+            <div class="row">
+                {% for deskId in desksId %}
+                <form method="post" class="desk-form">
+                        <button class="desk-btn" type="submit">
+                        <li class="rooms"><h3>{{ deskId }}</h3></li>
+                    </button>
+                </form>
+
+                    {% endfor %}
+            </div>
+        </ul>
     </div>
 
 
