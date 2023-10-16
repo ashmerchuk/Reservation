@@ -16,12 +16,8 @@ class BookingController extends AbstractController
             session_start();
         }
         if ($request->getMethod() == 'GET') {
-            $request->get('date');
             $thisDate = $request->get('date');
-//            dd($thisDate);
-
-//            dd($session->get('user_id'));
-//            $userId = $request->get('userId');
+//            dd('moin');
             $servername = "reservation-mysql";
             $username = "root";
             $password = "test_pass";
@@ -33,6 +29,11 @@ class BookingController extends AbstractController
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
+            $createTableReservations = "CREATE TABLE IF NOT EXISTS `reservations` (`id` int AUTO_INCREMENT,`desk_id` int,`reservation_time` datetime, `user_id` int, created_date datetime, PRIMARY KEY (id));";
+            $result = $conn->query($createTableReservations);
+
+            $createTableDesks = "CREATE TABLE IF NOT EXISTS `desks` (`id` int AUTO_INCREMENT,`room_id` int, `name` varchar(255), `description` varchar(255),  PRIMARY KEY (id), FOREIGN KEY (room_id) REFERENCES rooms(id));";
+            $resultTableDesks = $conn->query($createTableDesks);
 
             $usersEmail = $request->get('signInEmail');
 //            if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -62,8 +63,8 @@ class BookingController extends AbstractController
                 return $this->redirectToRoute('login');
             }
 
-            $createtable = "CREATE TABLE IF NOT EXISTS `rooms` (`id` int AUTO_INCREMENT,`name` varchar(255),`image` varchar(255), PRIMARY KEY (id));";
-            $result = $conn->query($createtable);
+            $createTableRooms = "CREATE TABLE IF NOT EXISTS `rooms` (`id` int AUTO_INCREMENT,`name` varchar(255),`image` varchar(255), PRIMARY KEY (id));";
+            $result = $conn->query($createTableRooms);
 //                    dd($result);
             if ($result) {
                 $sql = "SELECT * FROM `rooms`";
