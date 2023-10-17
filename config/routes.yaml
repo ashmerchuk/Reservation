@@ -36,3 +36,8 @@ deskReservation:
     path: /deskReservation
     methods: [GET, POST]
     controller: App\Controller\DeskReservationController::deskReservation
+
+allReservations:
+    path: /allReservations
+    methods: [GET, POST]
+    controller: App\Controller\AllReservationsController::allReservations

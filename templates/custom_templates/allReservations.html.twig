@@ -1,0 +1,51 @@
+{% extends './base.html.twig' %}
+
+{% block body %}
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="flex-grow: 1;">
+            {#            <h1>UserId: {{ userId }}</h1> #}
+            {% if usersName is defined %}
+                <div class="welcome-text">
+                    <h1>Welcome, {{ usersName }}!</h1>
+                </div>
+            {% else %}
+                <div class="welcome-text">
+                    <h1>Welcome!</h1>
+                </div>
+            {% endif %}
+        </div>
+        <form class="form" method="get" action="{{ path('home') }}">
+            {#            <input type="hidden" name="usersName">#}
+            <button class="info-btn">Home</button>
+        </form>
+        <form class="form" method="get" action="{{ path('logout') }}">
+            <button class="show-btn">My Reservations</button>
+        </form>
+        <form class="form" method="get" action="{{ path('logout') }}">
+            <button class="alert-btn">Logout</button>
+        </form>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Desk ID</th>
+            <th>Desk Name</th>
+            <th>Room Name</th>
+            <th>Reservation Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.desk_id }}</td>
+                <td>{{ reservation.desk_name }}</td>
+                <td>{{ reservation.room_name }}</td>
+                <td>{{ reservation.reservation_time }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+{% endblock %}

@@ -18,6 +18,9 @@
 {#            <input type="hidden" name="usersName">#}
             <button class="info-btn">Home</button>
         </form>
+        <form class="form" method="get" action="{{ path('allReservations') }}">
+            <button class="show-btn">My Reservations</button>
+        </form>
         <form class="form" method="get" action="{{ path('logout') }}">
             <button class="alert-btn">Logout</button>
         </form>

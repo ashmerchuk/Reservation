@@ -86,8 +86,12 @@ class HomeController extends AbstractController
         echo $request->get('dateOfReservation');
 
 
-        $userId = $request->get('userId');
-//        dd($userId);
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+
+        }
+//        $userId = $request->get('userId');
+        $userId = $_SESSION['user_id'];
         $servername = "reservation-mysql";
         $username = "root";
         $password = "test_pass";
