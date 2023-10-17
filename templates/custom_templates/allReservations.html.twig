@@ -44,7 +44,7 @@
                 <td>{{ reservation.reservation_time }}</td>
                 <td style="text-align: center; vertical-align: middle;">
                     <form class="no-style-form" method="post" action="{{ path('deleteReservations') }}">
-                        <input type="hidden" name="signInEmail" value="{{ email }}">
+                        <input type="hidden" name="email" value="{{ email }}">
                         <input type="hidden" name="reservation_id" value="{{ reservation.reservation_id }}">
                         <button class="delete-btn" type="submit">Delete</button>
                     </form>
