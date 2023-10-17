@@ -46,3 +46,8 @@ deleteReservations:
     path: /deleteReservations
     methods: [GET, POST]
     controller: App\Controller\AllReservationsController::deleteReservations
+
+sign_in:
+    path: /signIn
+    methods: [ POST, GET ]
+    controller: App\Controller\SignInController::signIn
