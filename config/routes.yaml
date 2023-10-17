@@ -41,3 +41,8 @@ allReservations:
     path: /allReservations
     methods: [GET, POST]
     controller: App\Controller\AllReservationsController::allReservations
+
+deleteReservations:
+    path: /deleteReservations
+    methods: [GET, POST]
+    controller: App\Controller\AllReservationsController::deleteReservations

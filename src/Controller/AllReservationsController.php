@@ -61,4 +61,8 @@ class AllReservationsController extends AbstractController
             'email' => $userEmail
         ]);
     }
+    public function deleteReservations(Request $request, SessionInterface $session): Response
+    {
+        dd($request);
+    }
 }
