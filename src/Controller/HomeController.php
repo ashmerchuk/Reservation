@@ -102,16 +102,17 @@ class HomeController extends AbstractController
 
         $usersEmail = $request->get('signInEmail');
 
-//        dd($_SESSION['user_id']);
-//        $sql = "SELECT * FROM `users` WHERE id = '$userId'";
-//        dd($usersEmail);
-        $sql = "SELECT * FROM `users` WHERE email = '$usersEmail'";
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+            $userId = $_SESSION['user_id'];
+        }
+
+        $sql = "SELECT * FROM `users` WHERE id = '$userId'";
         $stmt = $conn->prepare($sql);
         $result = $conn->query($sql);
 
         if ($result) {
             $row = $result->fetch_assoc();
-
             $usersName = $row['name'];
             $usersEmail = $row['email'];
             $userId = $row['id'];
