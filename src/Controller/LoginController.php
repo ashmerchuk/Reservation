@@ -49,6 +49,8 @@ class LoginController extends AbstractController
 
     public function signIn(Request $request): Response
     {
+
+//        dd('mo');
         $usersEmail = $request->get('signInEmail');
         $usersPassword = $request->get('signInPassword');
 
@@ -64,6 +66,7 @@ class LoginController extends AbstractController
             die("Connection failed: " . $conn->connect_error);
         }
 
+        dd($usersEmail);
         $sql = "SELECT email, password FROM `users` WHERE email = '$usersEmail'";
         $stmt = $conn->prepare($sql);
         $result = $conn->query($sql);
@@ -84,6 +87,10 @@ class LoginController extends AbstractController
                         $userId = $row['id'];
                         $usersName = $row['name'];
                         if (session_status() !== PHP_SESSION_ACTIVE) {
+                            session_start();
+                            $_SESSION['user_id'] = $userId;
+                        }else{
+                            session_destroy();
                             session_start();
                             $_SESSION['user_id'] = $userId;
                         }

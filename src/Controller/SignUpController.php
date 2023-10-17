@@ -24,6 +24,7 @@ class SignUpController extends AbstractController
             ]);
         }
 
+//        dd('moin');
         $usersEmail = $request->get('signUpEmail');
         $usersName = $request->get('signUpName');
         $usersPassword = $request->get('signUpPassword');

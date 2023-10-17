@@ -83,19 +83,27 @@ class HomeController extends AbstractController
 //            ]);
 //        }
 
-        echo $request->get('dateOfReservation');
+//        echo $request->get('dateOfReservation');
 
+//        if (session_status() === PHP_SESSION_ACTIVE) {
+//            session_destroy(); // Destroy the current session
+//        }
+//        else {
+//            session_start();
+//        }
+//        $userId = $request->get('userId');
 
+//        dd($_SESSION['user_id']);
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
-
         }
-//        $userId = $request->get('userId');
-        $userId = $_SESSION['user_id'];
+//        dd($request);
+//        dd($_SESSION);
+//        $userId = $_SESSION['user_id'];
         $servername = "reservation-mysql";
         $username = "root";
         $password = "test_pass";
-
+//        dd($userId);
 // Create connection
         $conn = new mysqli($servername, $username, $password, 'reservation');
 
@@ -104,14 +112,29 @@ class HomeController extends AbstractController
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $usersEmail = $request->get('signInEmail');
+//        $usersEmail = $request->get('signInEmail');
 
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
             $userId = $_SESSION['user_id'];
+            dd($_SESSION['user_id']);
+        }else{
+            session_destroy();
+            session_start();
+//            $_SESSION['user_id'] = $userId;
         }
+        $usersEmail = $request->get('signInEmail');
+//        dd($usersEmail);
 
-        $sql = "SELECT * FROM `users` WHERE id = '$userId'";
+
+//        $userId = $_SESSION['user_id'];
+//        dd($userId);
+//        if($userId !== null){
+//            $sql = "SELECT * FROM `users` WHERE id = '$userId'";
+//        }else{
+//            $sql = "SELECT * FROM `users` WHERE email = '$usersEmail'";
+//        }
+        $sql = "SELECT * FROM `users` WHERE email = '$usersEmail'";
         $stmt = $conn->prepare($sql);
         $result = $conn->query($sql);
 
@@ -127,6 +150,7 @@ class HomeController extends AbstractController
                 $_SESSION['user_id'] = $userId;
             }
         }else{
+            dd('a');
             return $this->redirectToRoute('login');
         }
 //        dd($userId);
@@ -156,6 +180,7 @@ class HomeController extends AbstractController
                 $rooms[] = $row['name'];
             }
         }
+//        dd($_SESSION['user_id']);
 //        dd($_SESSION['user_id']);
         return $this->render('custom_templates/bookingForm.html.twig',[
             'userId' => $userId,

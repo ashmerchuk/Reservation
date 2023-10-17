@@ -30,10 +30,23 @@ class DeskReservationController extends AbstractController
 
             $hiddenInputs = $request->request->all();
 
-            $userId = $_SESSION['user_id'];
+//            dd($_SESSION);
+//            $userId = $_SESSION['user_id'];
+//            dd($hiddenInputs);
+            $usersName = $hiddenInputs['usersName'];
             $deskId = $hiddenInputs['deskId'];
             $date = $hiddenInputs['date'];
             $roomName = $hiddenInputs['roomName'];
+
+            $sql = "SELECT * FROM `users` WHERE name = '$usersName'";
+            $stmt = $conn->prepare($sql);
+            $result = $conn->query($sql);
+            if ($result) {
+                $row = $result->fetch_assoc();
+                $userId = $row['id'];
+            }
+
+//            dd($usersName);
 
             // Build the SQL INSERT statement
                     $sql = "INSERT INTO reservations (desk_id, reservation_time, user_id) VALUES (?, ?, ?)";
@@ -51,9 +64,43 @@ class DeskReservationController extends AbstractController
                     }
 
             // Close the connection
-                    $conn->close();
+            $sql = "SELECT name FROM rooms";
+            $result = $conn->query($sql);
 
-            return $this->redirectToRoute('home');
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $rooms[] = $row['name'];
+                }
+            }
+
+        $sql = "SELECT id, name, email FROM `users` WHERE id = '$userId'";
+        $stmt = $conn->prepare($sql);
+        $result = $conn->query($sql);
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $userId = $row['id'];
+            $usersEmail = $row['email'];
+            $usersName = $row['name'];
+            if (session_status() !== PHP_SESSION_ACTIVE) {
+                session_start();
+                $_SESSION['user_id'] = $userId;
+            }else{
+                session_destroy();
+                session_start();
+                $_SESSION['user_id'] = $userId;
+            }
+        }else{
+            return $this->redirectToRoute('login');
+        }
+
+
+        return $this->render('custom_templates/bookingForm.html.twig',[
+            'userId' => $userId,
+            'usersName' => $usersName,
+            'email' => $usersEmail,
+            'rooms' => $rooms
+        ]);
+//            return $this->redirectToRoute('home');
 
 
 
@@ -145,6 +192,7 @@ class DeskReservationController extends AbstractController
                 $usersName = $row['name'];
                 $usersEmail = $row['email'];
             } else {
+                dd('moin1');
                 return $this->redirectToRoute('login');
             }
 

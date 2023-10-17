@@ -15,7 +15,7 @@
             {% endif %}
         </div>
         <form class="form" method="get" action="{{ path('home') }}">
-            {#            <input type="hidden" name="usersName"> #}
+            <input type="hidden" name="signInEmail" value="{{ email }}">
             <button class="info-btn">Home</button>
         </form>
         <form class="form" method="get" action="{{ path('allReservations') }}">
@@ -39,6 +39,7 @@
                         <input type="hidden" name="date"  value="{{ date }}">
                         <input type="hidden" name="roomName" value="{{ roomName }}">
                         <input type="hidden" name="deskId" value="{{ deskId }}">
+                        <input type="hidden" name="usersName" value="{{ usersName }}">
                         <button class="desk-btn" type="submit">
                             <li class="rooms"><h3>{{ deskId }}</h3></li>
                         </button>
