@@ -31,7 +31,8 @@ rooms:
     path: /rooms
     methods: [GET, POST]
     controller: App\Controller\RoomController::room
-#back:
-#    path: /
-#    methods: [GET, POST]
-#    controller: App\Controller\RoomController::back
+
+deskReservation:
+    path: /deskReservation
+    methods: [GET, POST]
+    controller: App\Controller\DeskReservationController::deskReservation

@@ -15,7 +15,7 @@
             {% endif %}
         </div>
         <form class="form" method="get" action="{{ path('home') }}">
-            <input type="hidden" name="usersName">
+            {#            <input type="hidden" name="usersName"> #}
             <button class="info-btn">Home</button>
         </form>
         <form class="form" method="get" action="{{ path('logout') }}">
@@ -32,13 +32,15 @@
         <ul>
             <div class="row">
                 {% for deskId in desksId %}
-                <form method="post" class="desk-form">
+                    <form method="post" class="desk-form"  action="{{ path('deskReservation') }}">
+                        <input type="hidden" name="date"  value="{{ date }}">
+                        <input type="hidden" name="roomName" value="{{ roomName }}">
+                        <input type="hidden" name="deskId" value="{{ deskId }}">
                         <button class="desk-btn" type="submit">
-                        <li class="rooms"><h3>{{ deskId }}</h3></li>
-                    </button>
-                </form>
-
-                    {% endfor %}
+                            <li class="rooms"><h3>{{ deskId }}</h3></li>
+                        </button>
+                    </form>
+                {% endfor %}
             </div>
         </ul>
     </div>
