@@ -25,13 +25,14 @@
             <button class="alert-btn">Logout</button>
         </form>
     </div>
-    <table>
+    <table class="styled-table">
         <thead>
-        <tr>
+        <tr class="active-row">
             <th>Desk ID</th>
             <th>Desk Name</th>
             <th>Room Name</th>
             <th>Reservation Time</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody>
@@ -41,6 +42,7 @@
                 <td>{{ reservation.desk_name }}</td>
                 <td>{{ reservation.room_name }}</td>
                 <td>{{ reservation.reservation_time }}</td>
+                <td>{{ reservation.reservation_id }}</td>
             </tr>
         {% endfor %}
         </tbody>
