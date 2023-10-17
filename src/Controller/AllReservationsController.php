@@ -100,8 +100,9 @@ class AllReservationsController extends AbstractController
         } else {
             // Handle the query error
         }
-
-        $sql = "SELECT name, email FROM users WHERE id = $userId";
+        $usersEmail = $request->get('email');
+//        dd($usersEmail);
+        $sql = "SELECT name, email FROM users WHERE email = '$usersEmail'";
         $result = $conn->query($sql);
         if($result){
             $row = $result->fetch_assoc();
@@ -109,6 +110,7 @@ class AllReservationsController extends AbstractController
             $userEmail = $row['email'];
         }
 
+//        dd('as');
         return $this->render('custom_templates/allReservations.html.twig', [
             'reservations' => $reservations, // Pass the reservations data to the template
             'usersName' => $userName,

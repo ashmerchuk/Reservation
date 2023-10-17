@@ -18,42 +18,43 @@
             <input type="hidden" name="signInEmail" value="{{ email }}">
             <button class="info-btn">Home</button>
         </form>
-        <form class="form" method="get" action="{{ path('logout') }}">
+        <form class="form" method="get" action="{{ path('allReservations') }}">
             <button class="show-btn">My Reservations</button>
         </form>
         <form class="form" method="get" action="{{ path('logout') }}">
             <button class="alert-btn">Logout</button>
         </form>
     </div>
-    <table class="styled-table">
-        <thead>
-        <tr class="active-row">
-            <th>Desk ID</th>
-            <th>Desk Name</th>
-            <th>Room Name</th>
-            <th>Reservation Time</th>
-            <th>Edit</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for reservation in reservations %}
-            <tr>
-                <td>{{ reservation.desk_id }}</td>
-                <td>{{ reservation.desk_name }}</td>
-                <td>{{ reservation.room_name }}</td>
-                <td>{{ reservation.reservation_time }}</td>
-                <td style="text-align: center; vertical-align: middle;">
-                    <form class="no-style-form" method="post" action="{{ path('deleteReservations') }}">
-                        <input type="hidden" name="email" value="{{ email }}">
-                        <input type="hidden" name="reservation_id" value="{{ reservation.reservation_id }}">
-                        <button class="delete-btn" type="submit">Delete</button>
-                    </form>
-                </td>
+    {% if reservations|length > 0 %}
+        <table class="styled-table">
+            <thead>
+            <tr class="active-row">
+                <th>Desk ID</th>
+                <th>Desk Name</th>
+                <th>Room Name</th>
+                <th>Reservation Time</th>
+                <th>Edit</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-
-
+            </thead>
+            <tbody>
+            {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.desk_id }}</td>
+                    <td>{{ reservation.desk_name }}</td>
+                    <td>{{ reservation.room_name }}</td>
+                    <td>{{ reservation.reservation_time }}</td>
+                    <td style="text-align: center; vertical-align: middle;">
+                        <form class="no-style-form" method="post" action="{{ path('deleteReservations') }}">
+                            <input type="hidden" name="email" value="{{ email }}">
+                            <input type="hidden" name="reservation_id" value="{{ reservation.reservation_id }}">
+                            <button class="delete-btn" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h2 style="text-align: center">No reservations found</h2>
+    {% endif %}
 {% endblock %}
