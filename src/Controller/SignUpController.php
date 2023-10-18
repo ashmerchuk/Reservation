@@ -14,6 +14,7 @@ class SignUpController extends AbstractController
 {
     public function signUp(Request $request, SessionInterface $session): Response
     {
+
         if ($request->getMethod() == 'GET') {
 
             return $this->render('custom_templates/signUp.html.twig', [
