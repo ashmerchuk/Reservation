@@ -44,18 +44,25 @@ class SignUpController extends AbstractController
         $createtable = "CREATE TABLE IF NOT EXISTS `users` (`id` int AUTO_INCREMENT, `email` varchar(255), `name` varchar(255), `password` varchar(255), `user_id` varchar(255), PRIMARY KEY (`id`))";
         $result = $conn->query($createtable);
 
-        $hashedPassword = password_hash($usersPassword, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO `users` (email, name, password) VALUES ('$usersEmail', '$usersName', '$hashedPassword')";
+        $sql = "SELECT email FROM `users` WHERE email = '$usersEmail'";
         $result = $conn->query($sql);
-        $conn->close();
+        if($result){
+            $row = $result->fetch_assoc();
+            if($result->num_rows == 0){
+                $hashedPassword = password_hash($usersPassword, PASSWORD_DEFAULT);
+                $sql = "INSERT INTO `users` (email, name, password) VALUES ('$usersEmail', '$usersName', '$hashedPassword')";
+                $result = $conn->query($sql);
+                $conn->close();
+                $session->getFlashBag()->add('success_account_creating', 'You have successfully created account');
+                return new RedirectResponse('signIn');
+            }
+            else{
+                $session->getFlashBag()->add('error_account_creating', 'Failed by creating account, email is already exists');
+                return new RedirectResponse('login');
+            }
+        }
 
-        return $this->redirectToRoute('login');
+         return new RedirectResponse('login');
     }
-
-//$usersEmail = $request->get('signUpEmail');
-//$usersPassword = $request->get('signUpPassword');
-//
-//return new RedirectResponse('/login');
-//}
 
 }

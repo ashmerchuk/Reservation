@@ -15,7 +15,7 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    height: 100vh;
+                    height: 90vh;
                 }
 
                 .content {
@@ -65,8 +65,22 @@
                     border: 1px solid #45a049; /* Add the red border */
                 }
 
+                .alert-container {
+                    margin-bottom: 25px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 2vh; /* This will center messages vertically on the screen */
+                }
+                .alert {
+                    background-color: #12b538; /* Red background color */
+                    color: #fff; /* White text color */
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    text-align: center;
+                    font-size: 20px;
+                }
             </style>
-
 
             <div class="container">
                 <div class="content">
@@ -83,5 +97,25 @@
                     </div>
                 </div>
             </div>
+            <div class="alert-container">
+                {% for flashType, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ flashType }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    var alerts = document.querySelectorAll('.alert');
+                    setTimeout(function () {
+                        alerts.forEach(function (alert) {
+                            alert.style.display = 'none';
+                        });
+                    }, 5000); // 5000 milliseconds (5 seconds)
+                });
+            </script>
 
         {% endblock %}

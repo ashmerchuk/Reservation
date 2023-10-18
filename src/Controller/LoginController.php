@@ -18,34 +18,36 @@ class LoginController extends AbstractController
         );
     }
 
-    public function signUp(Request $request, SessionInterface $session): Response
-    {
-        $usersEmail = $request->get('signUpEmail');
-        $usersName = $request->get('signUpName');
-        $usersPassword = $request->get('signUpPassword');
-
-        $servername = "reservation-mysql";
-        $username = "root";
-        $password = "test_pass";
-
-// Create connection
-        $conn = new mysqli($servername, $username, $password, 'reservation');
-
-// Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        $createtable = "CREATE TABLE IF NOT EXISTS `users` (`id` int AUTO_INCREMENT, `email` varchar(255), `name` varchar(255), `password` varchar(255), `user_id` varchar(255), PRIMARY KEY (`id`))";
-        $result = $conn->query($createtable);
-
-        $hashedPassword = password_hash($usersPassword, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO `users` (email, name, password) VALUES ('$usersEmail', '$usersName', '$hashedPassword')";
-        $result = $conn->query($sql);
-        $conn->close();
-
-        return $this->redirectToRoute('login');
-    }
+//    public function signUp(Request $request, SessionInterface $session): Response
+//    {
+//        $usersEmail = $request->get('signUpEmail');
+//        $usersName = $request->get('signUpName');
+//        $usersPassword = $request->get('signUpPassword');
+//
+//        $servername = "reservation-mysql";
+//        $username = "root";
+//        $password = "test_pass";
+//
+//// Create connection
+//        $conn = new mysqli($servername, $username, $password, 'reservation');
+//
+//// Check connection
+//        if ($conn->connect_error) {
+//            die("Connection failed: " . $conn->connect_error);
+//        }
+//
+//        $createtable = "CREATE TABLE IF NOT EXISTS `users` (`id` int AUTO_INCREMENT, `email` varchar(255), `name` varchar(255), `password` varchar(255), `user_id` varchar(255), PRIMARY KEY (`id`))";
+//        $result = $conn->query($createtable);
+//
+//
+//
+//        $hashedPassword = password_hash($usersPassword, PASSWORD_DEFAULT);
+//        $sql = "INSERT INTO `users` (email, name, password) VALUES ('$usersEmail', '$usersName', '$hashedPassword')";
+//        $result = $conn->query($sql);
+//        $conn->close();
+//
+//        return $this->redirectToRoute('login');
+//    }
 
     public function signIn(Request $request): Response
     {
