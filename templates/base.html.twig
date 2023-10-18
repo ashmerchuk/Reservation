@@ -1,390 +1,439 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-            <style>
-                /* Add space between input elements */
-                /* styles.css */
-                body {
-                    font-family: Arial, sans-serif;
-                    background-color: #f4f4f4;
-                    margin: 0;
-                    padding: 0;
-                }
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        <style>
+            /* Add space between input elements */
+            /* styles.css */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
 
-                .container {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                }
+            .container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
 
-                .content {
-                    width: 30%; /* Set the width you desire */
-                }
+            .content {
+                width: 30%; /* Set the width you desire */
+            }
 
-                .form-container {
-                    margin-top: 25px;
-                    background-color: #fff;
-                    padding: 20px;
-                    border-radius: 5px;
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                }
+            .form-container {
+                margin-top: 25px;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
 
-                h1 {
-                    text-align: center;
-                }
+            h1 {
+                text-align: center;
+            }
 
-                input {
-                    width: 80%;
-                    padding: 10px;
-                    margin: 10px 0;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                }
+            input {
+                width: 80%;
+                padding: 10px;
+                margin: 10px 0;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
 
-                button {
-                    width: 100%;
-                    padding: 10px;
-                    background-color: #45a049;
-                    color: #fff;
-                    border: 1px solid #45a049;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    font-family: 'Arial', sans-serif;
-                }
+            button {
+                width: 100%;
+                padding: 10px;
+                background-color: #45a049;
+                color: #fff;
+                border: 1px solid #45a049;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                font-family: 'Arial', sans-serif;
+            }
 
-                button:hover {
-                    color: #45a049;
-                    background-color: #fff;
-                    border: 1px solid #45a049;
-                }
-                .room-list ul {
-                    list-style: none;
-                    padding: 0;
-                }
+            button:hover {
+                color: #45a049;
+                background-color: #fff;
+                border: 1px solid #45a049;
+            }
 
-                .room-list .row {
-                    display: flex;
-                    flex-wrap: wrap;
-                    justify-content: center; /* Center .row elements horizontally */
-                }
+            .room-list ul {
+                list-style: none;
+                padding: 0;
+            }
 
-                .room-list .rooms {
-                    border: 1px solid #000;
-                    padding: 10px;
-                    /*margin: 15px;*/
-                    text-align: center;
-                    width: 90%; /* 50% width with spacing */
-                    height: 100px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-family: "Arial", sans-serif;
-                    font-size: 18px;
-                    background-color: #7fe5d6;
-                }
+            .room-list .row {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center; /* Center .row elements horizontally */
+            }
+
+            .room-list .rooms {
+                border: 1px solid #000;
+                padding: 10px;
+                /*margin: 15px;*/
+                text-align: center;
+                width: 90%; /* 50% width with spacing */
+                height: 100px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: "Arial", sans-serif;
+                font-size: 18px;
+                background-color: #7fe5d6;
+            }
 
 
-                .room-list li {
-                    border: 1px solid #000;
-                    padding: 10px;
-                    margin: 15px;
-                    text-align: center;
-                    width: 85%;
-                    height: 100px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-family: "Arial", sans-serif; /* Change the font family */
-                    font-size: 18px; /* Increase the font size */
-                    /*background-color: #7fe5d6;*/
-                }
-                .room-list {
-                    display: flex;
-                    width: 100%;
-                    justify-content: center; /* Center its children horizontally */
-                }
+            .room-list li {
+                border: 1px solid #000;
+                padding: 10px;
+                margin: 15px;
+                text-align: center;
+                width: 85%;
+                height: 100px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: "Arial", sans-serif; /* Change the font family */
+                font-size: 18px; /* Increase the font size */
+                /*background-color: #7fe5d6;*/
+            }
 
-                .room-form {
-                    width: 100%;
-                    max-width: 50%; /* Adjust the maximum width as needed */
-                    padding: 0; /* Adjust padding as needed */
-                    border: none; /* Remove form border if needed */
-                }
-                .desk-form {
-                    width: 100%;
-                    padding: 0; /* Adjust padding as needed */
-                    border: none; /* Remove form border if needed */
-                }
+            .room-list {
+                display: flex;
+                width: 100%;
+                justify-content: center; /* Center its children horizontally */
+            }
 
-                .rooms:hover{
-                    background: #bfeae4;
-                }
-                .unselected-rooms{
-                    width: 75%;
-                }
+            .room-form {
+                width: 100%;
+                max-width: 50%; /* Adjust the maximum width as needed */
+                padding: 0; /* Adjust padding as needed */
+                border: none; /* Remove form border if needed */
+            }
 
-                h2 {
-                    font-family: "Arial", sans-serif;
-                    margin-right: 15px;
-                }
+            .desk-form {
+                width: 100%;
+                padding: 0; /* Adjust padding as needed */
+                border: none; /* Remove form border if needed */
+            }
 
-                h3{
-                    font-family: "Arial", sans-serif;
-                    margin-right: 15px;
-                    justify-content: center;
-                    text-align: center;
-                    align-items: center;
-                }
+            .rooms:hover {
+                background: #bfeae4;
+            }
 
-                .welcome-text {
-                    text-align: center;
-                    margin-left: 150px; /* Shift to the right by 100px */
-                }
-                .deleteForm{
-                    width: 0;
-                    margin: 0
-                }
+            .unselected-rooms {
+                width: 75%;
+            }
 
-                .alert-btn {
-                    width: 100px;
-                    height: 42px;
-                    background-color: #ef1940;
-                    color: #fff;
-                    border: 1px solid #ef1940;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    margin-right: 50px;
-                    font-size: 16px; /* Adjust the font size as needed */
-                    font-family: 'Arial', sans-serif; /* Change the font family */
-                    padding: 5px 10px; /* Adjust padding for better text positioning */
-                }
+            h2 {
+                font-family: "Arial", sans-serif;
+                margin-right: 15px;
+            }
 
-                .alert-btn:hover {
-                    color: #ef1940;
-                    background-color: #fff;
-                    border: 1px solid #ef1940; /* Add the red border */
-                }
+            h3 {
+                font-family: "Arial", sans-serif;
+                margin-right: 15px;
+                justify-content: center;
+                text-align: center;
+                align-items: center;
+            }
 
-                .delete-btn {
-                    width: 100px;
-                    height: 42px;
-                    background-color: #ef1940;
-                    color: #fff;
-                    border: 1px solid #ef1940;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    margin: auto;
-                    font-size: 16px; /* Adjust the font size as needed */
-                    font-family: 'Arial', sans-serif; /* Change the font family */
-                    padding: 5px 10px; /* Adjust padding for better text positioning */
-                }
+            .welcome-text {
+                text-align: center;
+                margin-left: 150px; /* Shift to the right by 100px */
+            }
 
-                .delete-btn:hover {
-                    color: #ef1940;
-                    background-color: #fff;
-                    border: 1px solid #ef1940; /* Add the red border */
-                }
+            .deleteForm {
+                width: 0;
+                margin: 0
+            }
 
-                .info-btn:hover {
-                    color: #19b6ef;
-                    background-color: #fff;
-                    border: 1px solid #19b6ef; /* Add the red border */
-                }
-                .info-btn {
-                    width: 100px;
-                    height: 42px;
-                    background-color: #19b6ef;
-                    color: #fff;
-                    border: 1px solid #19b6ef;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    margin-right: 50px;
-                    font-size: 16px; /* Adjust the font size as needed */
-                    font-family: 'Arial', sans-serif; /* Change the font family */
-                    padding: 5px 10px; /* Adjust padding for better text positioning */
-                }
+            .alert-btn {
+                width: 100px;
+                height: 42px;
+                background-color: #ef1940;
+                color: #fff;
+                border: 1px solid #ef1940;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-right: 50px;
+                font-size: 16px; /* Adjust the font size as needed */
+                font-family: 'Arial', sans-serif; /* Change the font family */
+                padding: 5px 10px; /* Adjust padding for better text positioning */
+            }
 
-                .show-btn {
-                    width: 150px;
-                    height: 42px;
-                    background-color: #8819ef;
-                    color: #fff;
-                    border: 1px solid #8819ef;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    margin-right: 50px;
-                    font-size: 16px; /* Adjust the font size as needed */
-                    font-family: 'Arial', sans-serif; /* Change the font family */
-                    padding: 5px 10px; /* Adjust padding for better text positioning */
-                }
+            .alert-btn:hover {
+                color: #ef1940;
+                background-color: #fff;
+                border: 1px solid #ef1940; /* Add the red border */
+            }
 
-                .show-btn:hover {
-                    color: #8819ef;
-                    background-color: #fff;
-                    border: 1px solid #8819ef; /* Add the red border */
-                }
+            .delete-btn {
+                width: 100px;
+                height: 42px;
+                background-color: #ef1940;
+                color: #fff;
+                border: 1px solid #ef1940;
+                border-radius: 5px;
+                cursor: pointer;
+                margin: auto;
+                font-size: 16px; /* Adjust the font size as needed */
+                font-family: 'Arial', sans-serif; /* Change the font family */
+                padding: 5px 10px; /* Adjust padding for better text positioning */
+            }
 
-                .date {
-                    font-family: 'Arial', sans-serif;
-                    font-size: 18px;
-                    padding: 10px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                }
+            .delete-btn:hover {
+                color: #ef1940;
+                background-color: #fff;
+                border: 1px solid #ef1940; /* Add the red border */
+            }
 
-                .pick {
-                    width: auto; /* Allow the button to adjust its width based on content */
-                    /*padding: 10px;*/
-                    background-color: #ef1940;
-                    color: #fff;
-                    border: 1px solid #ef1940;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    font-family: 'Arial', sans-serif;
-                    margin: 12px 0 0 10px; /* Add margin to separate the button from the input */
-                }
-                .pick:hover {
-                    color: #ef1940;
-                    background-color: #fff;
-                    border: 1px solid #ef1940; /* Add the red border */
-                }
+            .info-btn:hover {
+                color: #19b6ef;
+                background-color: #fff;
+                border: 1px solid #19b6ef; /* Add the red border */
+            }
 
-                .center-content{
-                    display: flex;
-                    justify-content: center;
-                    text-align: center;
-                    margin-left: 5%;
-                }
-                
-                .room-btn{
-                    color: #fff;
-                    background: none;
-                    border: none;
-                    font: inherit;
-                    padding: 0;
-                    cursor: pointer;
-                    font-size: 16px;
-                    font-family: 'Arial', sans-serif;
-                }
+            .info-btn {
+                width: 100px;
+                height: 42px;
+                background-color: #19b6ef;
+                color: #fff;
+                border: 1px solid #19b6ef;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-right: 50px;
+                font-size: 16px; /* Adjust the font size as needed */
+                font-family: 'Arial', sans-serif; /* Change the font family */
+                padding: 5px 10px; /* Adjust padding for better text positioning */
+            }
 
-                .room-btn:hover {
-                    color: #fff;
-                    background: none;
-                    border: none;
-                    transform: scale(1.05); /* Increase the size by 5% on hover */
-                    transition: transform 0.2s; /* Add a smooth transition effect */
-                }
-                .desk-btn{
-                    width: 100%;
-                    padding: 0;
-                    background-color: #f4f4f4;
-                    color: #f4f4f4;
-                    border: 1px solid #f4f4f4;
-                    border-radius: 0;
-                    cursor: pointer;
-                    font-size: 16px;
-                    font-family: 'Arial', sans-serif;
-                }
+            .show-btn {
+                width: 150px;
+                height: 42px;
+                background-color: #8819ef;
+                color: #fff;
+                border: 1px solid #8819ef;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-right: 50px;
+                font-size: 16px; /* Adjust the font size as needed */
+                font-family: 'Arial', sans-serif; /* Change the font family */
+                padding: 5px 10px; /* Adjust padding for better text positioning */
+            }
 
-                .desk-btn:hover {
-                    color: #f4f4f4;
-                    background-color: #f4f4f4;
-                    border: 1px solid #f4f4f4;
-                }
-                .styled-table {
-                    width: 95%;
-                    margin: 0 auto; /* This centers the table horizontally */
-                    border-collapse: collapse;
-                    font-size: 0.9em;
-                    font-family: sans-serif;
-                    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-                    text-align: center; /* Center-align the content within table cells */
-                }
+            .show-btn:hover {
+                color: #8819ef;
+                background-color: #fff;
+                border: 1px solid #8819ef; /* Add the red border */
+            }
 
-                .styled-table thead tr {
-                    background-color: #54585d;;
-                    color: #ffffff;
-                }
+            .date {
+                font-family: 'Arial', sans-serif;
+                font-size: 18px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
 
-                .styled-table th, .styled-table td {
-                    padding: 12px 15px;
-                }
+            .pick {
+                width: auto; /* Allow the button to adjust its width based on content */
+                /*padding: 10px;*/
+                background-color: #ef1940;
+                color: #fff;
+                border: 1px solid #ef1940;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                font-family: 'Arial', sans-serif;
+                margin: 12px 0 0 10px; /* Add margin to separate the button from the input */
+            }
 
-                .styled-table tbody tr {
-                    border-bottom: 1px solid #dddddd;
-                }
+            .pick:hover {
+                color: #ef1940;
+                background-color: #fff;
+                border: 1px solid #ef1940; /* Add the red border */
+            }
 
-                .styled-table tbody tr:nth-of-type(even) {
-                    background-color: #f3f3f3;
-                }
+            .center-content {
+                display: flex;
+                justify-content: center;
+                text-align: center;
+                margin-left: 5%;
+            }
 
-                .styled-table tbody tr:last-of-type {
-                    border-bottom: 2px solid #54585d;;
-                }
+            .room-name {
+                font-size: 36px; /* Adjust the font size as needed */
+                text-shadow: 8px 8px 6px rgba(0, 0, 0, 0.9); /* Adjust the shadow values as needed */
+                -webkit-text-stroke: 0.8px black;
+            }
+            .free-desks {
+                font-size: 18px;
+                text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.9); /* Adjust the shadow values as needed */
+                -webkit-text-stroke: 0.1px black;
+            }
 
-                .styled-table tbody tr.active-row {
-                    font-weight: bold;
-                    color: #54585d;;
-                }
 
-                .nav .nav-link svg {
-                    fill: black;
-                    transition: transform 0.2s;
-                }
+            .room-btn {
+                color: #fff;
+                background: none;
+                border: none;
+                font: inherit;
+                padding: 0;
+                cursor: pointer;
+                font-size: 16px;
+                font-family: 'Arial', sans-serif;
+            }
 
-                .nav .nav-link:hover svg {
-                    transform: scale(1.1); /* Adjust the scale factor as needed */
-                }
+            .room-btn:hover {
+                color: #fff;
+                background: none;
+                border: none;
+                transform: scale(1.05); /* Increase the size by 5% on hover */
+                transition: transform 0.2s; /* Add a smooth transition effect */
+            }
 
-                .nav .nav-link {
-                    position: relative;
-                }
+            .desk-btn {
+                width: 100%;
+                padding: 0;
+                background-color: #f4f4f4;
+                color: #f4f4f4;
+                border: 1px solid #f4f4f4;
+                border-radius: 0;
+                cursor: pointer;
+                font-size: 16px;
+                font-family: 'Arial', sans-serif;
+            }
 
-                .nav .nav-link::before {
-                    content: attr(title);
-                    position: absolute;
-                    bottom: -24px; /* Adjust the distance as needed */
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background-color: #000;
-                    color: #fff;
-                    padding: 4px 8px;
-                    border-radius: 4px;
-                    font-size: 12px;
-                    opacity: 0;
-                    pointer-events: none;
-                    transition: opacity 0.2s;
-                }
+            .desk-btn:hover {
+                color: #f4f4f4;
+                background-color: #f4f4f4;
+                border: 1px solid #f4f4f4;
+            }
 
-                .nav .nav-link:hover::before {
-                    opacity: 1;
-                }
+            .styled-table {
+                width: 95%;
+                margin: 0 auto; /* This centers the table horizontally */
+                border-collapse: collapse;
+                font-size: 0.9em;
+                font-family: sans-serif;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+                text-align: center; /* Center-align the content within table cells */
+            }
 
-                .nav .nav-link:hover {
-                    text-decoration: none; /* Remove underline on hover */
-                }
+            .styled-table thead tr {
+                background-color: #54585d;;
+                color: #ffffff;
+            }
 
-                .nav {
-                    background-color: #dcdcdc;
-            </style>
-        {% endblock %}
+            .styled-table th, .styled-table td {
+                padding: 12px 15px;
+            }
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+            .styled-table tbody tr {
+                border-bottom: 1px solid #dddddd;
+            }
+
+            .styled-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+            }
+
+            .styled-table tbody tr:last-of-type {
+                border-bottom: 2px solid #54585d;;
+            }
+
+            .styled-table tbody tr.active-row {
+                font-weight: bold;
+                color: #54585d;;
+            }
+
+            .nav .nav-link svg {
+                fill: black;
+                transition: transform 0.2s;
+            }
+
+            .nav .nav-link:hover svg {
+                transform: scale(1.1); /* Adjust the scale factor as needed */
+            }
+
+            .nav .nav-link {
+                position: relative;
+            }
+
+            .nav .nav-link::before {
+                content: attr(title);
+                position: absolute;
+                bottom: -24px; /* Adjust the distance as needed */
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #000;
+                color: #fff;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.2s;
+            }
+
+            .nav .nav-link:hover::before {
+                opacity: 1;
+            }
+
+            .nav .nav-link:hover {
+                text-decoration: none; /* Remove underline on hover */
+            }
+
+            .nav {
+                background-color: #dcdcdc;
+            }
+            .alert-container {
+                margin-bottom: 25px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 2vh; /* This will center messages vertically on the screen */
+            }
+            .alert-reservation-container {
+                margin-top: 50px;
+                margin-bottom: 25px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 2vh; /* This will center messages vertically on the screen */
+            }
+            .alert {
+                background-color: #ef1940; /* Red background color */
+                color: #fff; /* White text color */
+                padding: 10px 20px;
+                border-radius: 5px;
+                text-align: center;
+                font-size: 20px;
+            }
+        </style>
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                crossorigin="anonymous"></script>
+    {% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
+</body>
 </html>

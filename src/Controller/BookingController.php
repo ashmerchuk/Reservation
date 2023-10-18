@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use mysqli;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -76,6 +77,23 @@ class BookingController extends AbstractController
             }
 
             $thisDate = $request->get('date');
+            $userId = $_SESSION['user_id'];
+
+            // Check if there's already a reservation for the user on the picked date
+            $sql = "SELECT id FROM reservations WHERE user_id = ? AND reservation_time = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ss", $userId, $thisDate);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            // If a reservation is found, redirect with an error message
+            if ($result->num_rows > 0) {
+                $session->getFlashBag()->add('error_reservation', 'You have already reservation on this day');
+                return new RedirectResponse('/');
+//                dd('m');
+//                header("Location: home.php?error=already_reserved");
+//                exit;
+            }
 
             if ($thisDate !== null && $thisDate !== "") {
                 // Step 1: Count the number of reservations for the given date
@@ -181,24 +199,37 @@ class BookingController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        $createtable = "CREATE TABLE IF NOT EXISTS `rooms` (`id` int AUTO_INCREMENT,`name` varchar(255),`image` varchar(255), PRIMARY KEY (id));";
+        $createtable = "CREATE TABLE IF NOT EXISTS `rooms` (`id` int AUTO_INCREMENT, `name` varchar(255), `image` varchar(255), PRIMARY KEY (id));";
         $result = $conn->query($createtable);
-//                    dd($result);
+
         if ($result) {
             $sql = "SELECT * FROM `rooms`";
             $result = $conn->query($sql);
+
             if ($result->num_rows == 0) {
-                $sql = "INSERT INTO rooms (name) VALUES
-                                ('Hafencity'),
-                                ('Fischmarkt'),
-                                ('Stadtpark'),
-                                ('Altona')";
+                $roomData = [
+                    ['name' => 'Hafencity', 'image' => 'hafencity.jpg'],
+                    ['name' => 'Fischmarkt', 'image' => 'fischmarkt.jpeg'],
+                    ['name' => 'Stadtpark', 'image' => 'stadtpark.jpeg'],
+                    ['name' => 'Altona', 'image' => 'altona.jpeg'],
+                ];
+
+                $insertValues = [];
+                foreach ($roomData as $room) {
+                    $roomName = $room['name'];
+                    $roomImage = $room['image'];
+                    $insertValues[] = "('$roomName', '$roomImage')";
+                }
+
+                $valuesString = implode(',', $insertValues);
+
+                $sql = "INSERT INTO rooms (name, image) VALUES $valuesString";
                 $result = $conn->query($sql);
             }
         }
 
         //Adding array with rooms name to use it in template
-        $sql = "SELECT name FROM rooms";
+        $sql = "SELECT * FROM rooms";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {

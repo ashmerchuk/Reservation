@@ -22,6 +22,27 @@
         {% endif %}
     </div>
 
+    <div class="alert-reservation-container">
+        {% for flashType, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ flashType }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var alerts = document.querySelectorAll('.alert');
+            setTimeout(function () {
+                alerts.forEach(function (alert) {
+                    alert.style.display = 'none';
+                });
+            }, 5000); // 5000 milliseconds (5 seconds)
+        });
+    </script>
+
     <div class="room-list">
         <ul>
             <div class="row">
@@ -32,7 +53,9 @@
                             <button class="room-btn" type="submit">
                                 <li class="rooms" style="background-image: url('{{ asset('images/' ~ room.room_image) }}');height: 250px; background-size: cover;">
                                     <h3 class="room-name">{{ room.room_name }}</h3>
-                                    (Free Desks: {{ room.free_desk_count }})
+                                    <div class="free-desks">
+                                        (Free Desks: {{ room.free_desk_count }})
+                                    </div>
                                 </li>
                             </button>
                         </form>
