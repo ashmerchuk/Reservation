@@ -80,7 +80,7 @@
                 .room-list .rooms {
                     border: 1px solid #000;
                     padding: 10px;
-                    margin: 15px;
+                    /*margin: 15px;*/
                     text-align: center;
                     width: 90%; /* 50% width with spacing */
                     height: 100px;
@@ -105,7 +105,7 @@
                     align-items: center;
                     font-family: "Arial", sans-serif; /* Change the font family */
                     font-size: 18px; /* Increase the font size */
-                    background-color: #7fe5d6;
+                    /*background-color: #7fe5d6;*/
                 }
                 .room-list {
                     display: flex;
@@ -267,21 +267,22 @@
                 }
                 
                 .room-btn{
-                    width: 100%;
-                    padding: 0;
-                    background-color: #fff;
                     color: #fff;
-                    border: 1px solid #fff;
-                    border-radius: 0;
+                    background: none;
+                    border: none;
+                    font: inherit;
+                    padding: 0;
                     cursor: pointer;
                     font-size: 16px;
                     font-family: 'Arial', sans-serif;
                 }
 
                 .room-btn:hover {
-                    color: #ffffff;
-                    background-color: #fff;
-                    border: 1px solid #ffffff;
+                    color: #fff;
+                    background: none;
+                    border: none;
+                    transform: scale(1.05); /* Increase the size by 5% on hover */
+                    transition: transform 0.2s; /* Add a smooth transition effect */
                 }
                 .desk-btn{
                     width: 100%;
