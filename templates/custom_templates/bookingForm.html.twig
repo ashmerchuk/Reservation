@@ -5,21 +5,20 @@
         {% include 'custom_templates/navbar.html.twig' %}
     </div>
 
-    <div class="center-content">
-        <h2 style="font-family: 'Arial', sans-serif; font-size: 24px;">Date of reservation</h2>
-        <form method="get" action="{{ path('booking') }}" style="display: flex;">
-            <input class="date" type="date" name="date">
-            <button class="alert-btn pick" type="submit">Pick</button>
+    <div class="center-content" style="display: flex; align-items: center;">
+        <h2 style="font-family: 'Arial', sans-serif; font-size: 24px; vertical-align: middle;">Date of reservation</h2>
+        <form method="get" action="{{ path('booking') }}" style="display: flex; align-items: center;">
+            <input class="date" type="date" name="date" value="{{ 'now'|date('Y-m-d') }}">
+            <button style="margin-bottom: 15px" class="alert-btn pick" type="submit" style="vertical-align: middle;">Pick</button>
         </form>
     </div>
-
 
     <div style="text-align: center;">
         {% if freeDeskCounts is defined and freeDeskCounts|length > 0 %}
            <h2>Choose a room</h2>
         {% endif %}
         {% if noReservationCount is defined %}
-            <p>Free desks at {{ pikedDate }}: {{ noReservationCount }}</p>
+            <p>Free desks at {{ pikedDate|date('d.m.Y') }}: <b>{{ noReservationCount }}</b></p>
         {% endif %}
     </div>
 
