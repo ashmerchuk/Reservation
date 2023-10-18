@@ -25,7 +25,7 @@
     <div class="alert-reservation-container">
         {% for flashType, messages in app.flashes %}
             {% for message in messages %}
-                <div class="alert alert-{{ flashType }}">
+                <div class="alert-{{ flashType }}">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -34,7 +34,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var alerts = document.querySelectorAll('.alert');
+            var alerts = document.querySelectorAll('.alert-success, .alert-error');
             setTimeout(function () {
                 alerts.forEach(function (alert) {
                     alert.style.display = 'none';

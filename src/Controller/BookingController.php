@@ -88,7 +88,7 @@ class BookingController extends AbstractController
 
             // If a reservation is found, redirect with an error message
             if ($result->num_rows > 0) {
-                $session->getFlashBag()->add('error_reservation', 'You have already reservation on this day');
+                $session->getFlashBag()->add('error', 'You have already reservation on this day');
                 return new RedirectResponse('/');
 //                dd('m');
 //                header("Location: home.php?error=already_reserved");

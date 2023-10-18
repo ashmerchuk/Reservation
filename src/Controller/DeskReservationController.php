@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use mysqli;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -93,7 +94,13 @@ class DeskReservationController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
+//        dd('hallo');
+//        $session->getFlashBag()->add('success_account_creating', 'You have successfully created account');
+//        $session->getFlashBag()->add('success', 'Your desk reservation was successfully');
+//        return new RedirectResponse('/');
 
+//        dd('na');
+        $session->getFlashBag()->add('success', 'Your desk reservation was successfully');
         return $this->render('custom_templates/bookingForm.html.twig',[
             'userId' => $userId,
             'usersName' => $usersName,
@@ -140,6 +147,7 @@ class DeskReservationController extends AbstractController
 //                }
 //            }
 
+//              dd('hey');
             $thisDate = $request->get('date');
 
             if ($thisDate !== null && $thisDate !== "") {
@@ -208,7 +216,7 @@ class DeskReservationController extends AbstractController
                 }
             }
 
-//            dd($thisDate, 'moinn');
+            dd($thisDate, 'moinn');
             return $this->render('custom_templates/bookingForm.html.twig', [
                 'userId' => $userId,
                 'usersName' => $usersName,
