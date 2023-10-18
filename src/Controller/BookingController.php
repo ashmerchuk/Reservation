@@ -30,17 +30,32 @@ class BookingController extends AbstractController
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
-            $createTableRooms = "CREATE TABLE IF NOT EXISTS `rooms` (`id` int AUTO_INCREMENT,`name` varchar(255),`image` varchar(255), PRIMARY KEY (id));";
-            $result = $conn->query($createTableRooms);
+
+            $createtable = "CREATE TABLE IF NOT EXISTS `rooms` (`id` int AUTO_INCREMENT, `name` varchar(255), `image` varchar(255), PRIMARY KEY (id));";
+            $result = $conn->query($createtable);
+
             if ($result) {
                 $sql = "SELECT * FROM `rooms`";
                 $result = $conn->query($sql);
+
                 if ($result->num_rows == 0) {
-                    $sql = "INSERT INTO rooms (name) VALUES
-                                ('Hafencity'),
-                                ('Fischmarkt'),
-                                ('Stadtpark'),
-                                ('Altona')";
+                    $roomData = [
+                        ['name' => 'Hafencity', 'image' => 'hafencity.jpg'],
+                        ['name' => 'Fischmarkt', 'image' => 'fischmarkt.jpeg'],
+                        ['name' => 'Stadtpark', 'image' => 'stadtpark.jpeg'],
+                        ['name' => 'Altona', 'image' => 'altona.jpeg'],
+                    ];
+
+                    $insertValues = [];
+                    foreach ($roomData as $room) {
+                        $roomName = $room['name'];
+                        $roomImage = $room['image'];
+                        $insertValues[] = "('$roomName', '$roomImage')";
+                    }
+
+                    $valuesString = implode(',', $insertValues);
+
+                    $sql = "INSERT INTO rooms (name, image) VALUES $valuesString";
                     $result = $conn->query($sql);
                 }
             }
@@ -88,7 +103,7 @@ class BookingController extends AbstractController
             }
 
             $selectedDate = $thisDate;
-            $sqlFreeDeskCount = "SELECT r.id AS room_id, r.name AS room_name, COUNT(d.id) AS free_desk_count
+            $sqlFreeDeskCount = "SELECT r.id AS room_id, r.name AS room_name, r.image AS room_image, COUNT(d.id) AS free_desk_count
                                 FROM rooms r
                                 LEFT JOIN desks d ON r.id = d.room_id
                                 LEFT JOIN reservations re ON d.id = re.desk_id AND re.reservation_time = '$selectedDate'
@@ -96,11 +111,8 @@ class BookingController extends AbstractController
                                 GROUP BY r.id";
             $resultFreeDeskCount = $conn->query($sqlFreeDeskCount);
 
-            // Fetch the results into an array
+// Fetch the results into an array
             $freeDeskCounts = $resultFreeDeskCount->fetch_all(MYSQLI_ASSOC);
-//            dd($freeDeskCounts);
-
-
 
             $userId = $_SESSION['user_id'];
             $sql = "SELECT * FROM `users` WHERE id = '$userId'";
@@ -115,15 +127,13 @@ class BookingController extends AbstractController
                 return $this->redirectToRoute('login');
             }
 
-
-
             //Adding array with rooms name to use it in template
-            $sql = "SELECT name FROM rooms";
+            $sql = "SELECT name, image FROM rooms";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    $rooms[] = $row['name'];
+                    $rooms[] = $row;
                 }
             }
 

@@ -68,32 +68,46 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        $createtable = "CREATE TABLE IF NOT EXISTS `rooms` (`id` int AUTO_INCREMENT,`name` varchar(255),`image` varchar(255), PRIMARY KEY (id));";
+        $createtable = "CREATE TABLE IF NOT EXISTS `rooms` (`id` int AUTO_INCREMENT, `name` varchar(255), `image` varchar(255), PRIMARY KEY (id));";
         $result = $conn->query($createtable);
-//                    dd($result);
-        if($result) {
+
+        if ($result) {
             $sql = "SELECT * FROM `rooms`";
             $result = $conn->query($sql);
-            if ($result->num_rows  == 0) {
-                $sql = "INSERT INTO rooms (name) VALUES
-                                ('Hafencity'),
-                                ('Fischmarkt'),
-                                ('Stadtpark'),
-                                ('Altona')";
+
+            if ($result->num_rows == 0) {
+                $roomData = [
+                    ['name' => 'Hafencity', 'image' => 'hafencity.jpg'],
+                    ['name' => 'Fischmarkt', 'image' => 'fischmarkt.jpeg'],
+                    ['name' => 'Stadtpark', 'image' => 'stadtpark.jpeg'],
+                    ['name' => 'Altona', 'image' => 'altona.jpeg'],
+                ];
+
+                $insertValues = [];
+                foreach ($roomData as $room) {
+                    $roomName = $room['name'];
+                    $roomImage = $room['image'];
+                    $insertValues[] = "('$roomName', '$roomImage')";
+                }
+
+                $valuesString = implode(',', $insertValues);
+
+                $sql = "INSERT INTO rooms (name, image) VALUES $valuesString";
                 $result = $conn->query($sql);
             }
         }
 
         //Adding array with rooms name to use it in template
-        $sql = "SELECT name FROM rooms";
+        $sql = "SELECT name, image FROM rooms";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $rooms[] = $row['name'];
+                $rooms[] = $row;
             }
         }
 
+//        dd($rooms);
         return $this->render('custom_templates/bookingForm.html.twig',[
             'userId' => $userId,
             'usersName' => $usersName,
