@@ -52,7 +52,7 @@ class LoginController extends AbstractController
     public function signIn(Request $request): Response
     {
 
-//        dd('mo');
+        dd('mo');
         $usersEmail = $request->get('signInEmail');
         $usersPassword = $request->get('signInPassword');
 
