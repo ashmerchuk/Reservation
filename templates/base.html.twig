@@ -335,7 +335,45 @@
                     color: #54585d;;
                 }
 
+                .nav .nav-link svg {
+                    fill: black;
+                    transition: transform 0.2s;
+                }
 
+                .nav .nav-link:hover svg {
+                    transform: scale(1.1); /* Adjust the scale factor as needed */
+                }
+
+                .nav .nav-link {
+                    position: relative;
+                }
+
+                .nav .nav-link::before {
+                    content: attr(title);
+                    position: absolute;
+                    bottom: -24px; /* Adjust the distance as needed */
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background-color: #000;
+                    color: #fff;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.2s;
+                }
+
+                .nav .nav-link:hover::before {
+                    opacity: 1;
+                }
+
+                .nav .nav-link:hover {
+                    text-decoration: none; /* Remove underline on hover */
+                }
+
+                .nav {
+                    background-color: #dcdcdc;
             </style>
         {% endblock %}
 
