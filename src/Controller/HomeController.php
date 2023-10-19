@@ -30,6 +30,7 @@ class HomeController extends AbstractController
 
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
+//            dd('qw');
 //            $userId = $_SESSION['user_id'];
 //            dd($_SESSION['user_id']);
         }
@@ -37,17 +38,22 @@ class HomeController extends AbstractController
 //            session_destroy();
 //            session_start();
 //        }
+//        dd('abc');
+//        dd($_SESSION['user_id']);
         $usersEmail = $request->get('signInEmail');
 //        dd($usersEmail);
 
-        $userId = $_SESSION['user_id'];
+
+//        $userId = $_SESSION['user_id'];
         if($usersEmail !== null){
             $sql = "SELECT * FROM `users` WHERE email = '$usersEmail'";
-            $userId = $_SESSION['user_id'];
+//            $userId = $_SESSION['user_id'];
             $stmt = $conn->prepare($sql);
             $result = $conn->query($sql);
         }
         else{
+//            dd($_SESSION['user_id']);
+            $userId = $_SESSION['user_id'];
             $sql = "SELECT * FROM `users` WHERE id = $userId";
             $stmt = $conn->prepare($sql);
             $result = $conn->query($sql);

@@ -17,6 +17,7 @@ class SignInController extends AbstractController
      */
     public function signIn(): Response
     {
+//        dd('ewq');
         return $this->render('custom_templates/signIn.html.twig'); // Render your sign-in template
     }
 }
