@@ -73,7 +73,7 @@ class RoomController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        $sql = "SELECT d.id AS desk_id
+        $sql = "SELECT d.id AS desk_id, d.image
                 FROM desks d
                 LEFT JOIN reservations r ON d.id = r.desk_id AND r.reservation_time = '$pikedDate'
                 WHERE d.room_id = '$roomId'
@@ -84,13 +84,20 @@ class RoomController extends AbstractController
         $desksId = array(); // Initialize an array to store desk IDs
 
         if ($result) {
+            $desks = []; // Create an empty array to store desks
             while ($row = $result->fetch_assoc()) {
-                $desksId[] = $row['desk_id']; // Add each desk_id to the array
+                $desk = [
+                    'id' => $row['desk_id'],
+                    'image' => $row['image']
+                ];
+
+                $desks[] = $desk; // Add the desk to the desks array
             }
         } else {
             return $this->redirectToRoute('login');
         }
 
+//        dd($desksImage, $desksId);
 //        dd($desksId);
 
 
@@ -100,7 +107,7 @@ class RoomController extends AbstractController
             'email' => $usersEmail,
             'date' => $pikedDate,
             'roomName' => $roomName,
-            'desksId' => $desksId
+            'desks' => $desks
         ]);
     }
 }

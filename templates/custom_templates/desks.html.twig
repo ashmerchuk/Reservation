@@ -13,20 +13,24 @@
     <div class="room-list">
         <ul>
             <div class="row">
-                {% for deskId in desksId %}
-                    <form method="post" class="desk-form"  action="{{ path('deskReservation') }}">
-                        <input type="hidden" name="date"  value="{{ date }}">
+                {% for desk in desks %}
+                    <form method="post" action="{{ path('deskReservation') }}">
+                        <input type="hidden" name="date" value="{{ date }}">
                         <input type="hidden" name="roomName" value="{{ roomName }}">
-                        <input type="hidden" name="deskId" value="{{ deskId }}">
+                        <input type="hidden" name="deskId" value="{{ desk.id }}">
                         <input type="hidden" name="usersName" value="{{ usersName }}">
                         <button class="desk-btn" type="submit">
-                            <li class="rooms"><h3>{{ deskId }}</h3></li>
+                            <li class="rooms" style="background-image: url('{{ asset('images/' ~ desk.image) }}');height: 250px; background-size: cover;">
+                                <h3>{{ desk.id }}</h3>
+                            </li>
                         </button>
                     </form>
                 {% endfor %}
             </div>
         </ul>
     </div>
+
+
 
 
 {% endblock %}
