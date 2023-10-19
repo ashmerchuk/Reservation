@@ -64,17 +64,17 @@ class BookingController extends AbstractController
             $createTableReservations = "CREATE TABLE IF NOT EXISTS `reservations` (`id` int AUTO_INCREMENT,`desk_id` int,`reservation_time` date, `user_id` int, created_date date, PRIMARY KEY (id));";
             $resultTableReservations = $conn->query($createTableReservations);
 
-            $createTableDesks = "CREATE TABLE IF NOT EXISTS `desks` (`id` int AUTO_INCREMENT,`room_id` int, `name` varchar(255), `image` varchar(255), `description` varchar(255),  PRIMARY KEY (id), FOREIGN KEY (room_id) REFERENCES rooms(id));";
+            $createTableDesks = "CREATE TABLE IF NOT EXISTS `desks` (`id` int AUTO_INCREMENT,`room_id` int, `name` varchar(255), `image` varchar(255),PRIMARY KEY (id), FOREIGN KEY (room_id) REFERENCES rooms(id));";
             $resultTableDesks = $conn->query($createTableDesks);
             if($resultTableDesks){
                 $sql = "SELECT * FROM `desks`";
                 $result = $conn->query($sql);
                 if ($result->num_rows == 0) {
-                    $sql = "INSERT INTO desks (room_id, image) VALUES
-                                (1, '1monitor.jpeg'), (1, '2monitors.jpeg'), (1, '1monitor.jpeg'), (1, '2monitors.jpeg'),
-                                (2, '1monitor.jpeg'), (2, '2monitors.jpeg'), (2, '1monitor.jpeg'), (2, '2monitors.jpeg'),
-                                (3, '1monitor.jpeg'), (3, '2monitors.jpeg'),
-                                (4, '1monitor.jpeg'), (4, '2monitors.jpeg'), (4, '1monitor.jpeg'), (4, '2monitors.jpeg'),(4, '1monitor.jpeg'), (4, '2monitors.jpeg')";
+                    $sql = "INSERT INTO desks (room_id, name, image) VALUES
+                                (1, '1 monitor 24 inches, English keyboard, Mouse', '1monitor.jpeg'), (1, '2 monitors 24 inches, German keyboard, Mouse', '2monitors.jpeg'), (1, '2 monitors 24 inches, German keyboard, Mouse','1monitor.jpeg'), (1, '2 monitors 24 inches, German keyboard, Mouse', '2monitors.jpeg'),
+                                (2, '1 monitor 24 inches, English keyboard, Mouse','1monitor.jpeg'), (2, '2 monitors 24 inches, English keyboard, Mouse', '2monitors.jpeg'), (2, '1 monitor 24 inches, German keyboard, Mouse', '1monitor.jpeg'), (2, '2 monitors 24 inches, German keyboard, Mouse', '2monitors.jpeg'),
+                                (3, '1 monitor 24 inches, English keyboard, Mouse','1monitor.jpeg'), (3, '2 monitors 24 inches, English keyboard, Mouse','2monitors.jpeg'),
+                                (4, '1 monitor 24 inches, English keyboard, Mouse','1monitor.jpeg'), (4, '2 monitors 24 inches, German keyboard, Mouse','2monitors.jpeg'), (4, '1 monitor 24 inches, German keyboard, Mouse', '1monitor.jpeg'), (4, '2 monitors 24 inches, German keyboard, Mouse', '2monitors.jpeg'),(4, '1 monitor 24 inches, German keyboard, Mouse', '1monitor.jpeg'), (4,'2 monitors 24 inches, German keyboard, Mouse', '2monitors.jpeg')";
                     $result = $conn->query($sql);
                 }
             }

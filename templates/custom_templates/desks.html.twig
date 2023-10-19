@@ -27,6 +27,9 @@
         .row{
             width: 100%;
         }
+        li{
+             list-style: none
+         }
 
 
     </style>
@@ -36,7 +39,7 @@
 
     <div class="center-content">
         <h2 style="font-family: 'Arial', sans-serif; font-size: 24px;">Date of reservation in room <span
-                    style="color: #579e2f">{{ roomName }}</span> for {{ date }}</h2>
+                    style="color: #488b12; font-family: 'Lato', sans-serif; font-size: 38px; font-weight: normal; line-height: 48px; margin: 0;">{{ roomName }}</span> for {{ date }}</h2>
 
     </div>
     <div class="desk-list">
@@ -48,11 +51,12 @@
                     <input type="hidden" name="roomName" value="{{ roomName }}">
                     <input type="hidden" name="deskId" value="{{ desk.id }}">
                     <input type="hidden" name="usersName" value="{{ usersName }}">
+                    <li>
                     <button class="desk-btn" type="submit" style="background-image: url('{{ asset('images/' ~ desk.image) }}');">
-                        <li class="room" style="height: 250px;">
-                            <h3 class="room-name">{{ desk.id }}</h3>
-                        </li>
                     </button>
+                        <h3 style="margin-top: 15px">Desk# {{ desk.id }}</h3>
+                        <h5>{{ desk.name }}</h5>
+                    </li>
                 </form>
                 {% if loop.index % 2 == 0 or loop.last %}
             </div>

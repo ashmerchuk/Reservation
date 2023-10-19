@@ -73,7 +73,7 @@ class RoomController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        $sql = "SELECT d.id AS desk_id, d.image
+        $sql = "SELECT d.id AS desk_id, d.image, name
                 FROM desks d
                 LEFT JOIN reservations r ON d.id = r.desk_id AND r.reservation_time = '$pikedDate'
                 WHERE d.room_id = '$roomId'
@@ -88,7 +88,8 @@ class RoomController extends AbstractController
             while ($row = $result->fetch_assoc()) {
                 $desk = [
                     'id' => $row['desk_id'],
-                    'image' => $row['image']
+                    'image' => $row['image'],
+                    'name' => $row['name']
                 ];
 
                 $desks[] = $desk; // Add the desk to the desks array
