@@ -1,6 +1,35 @@
 {% extends './base.html.twig' %}
 
 {% block body %}
+
+    <style>
+        .desk-form {
+            width: 48%; /* 48% to allow for a small margin between forms */
+            margin: 1%;
+            display: inline-block;
+        }
+
+        /* To ensure that the last form in the row is centered in case of an odd number of forms */
+        .desk-form:last-child {
+            margin-left: 0;
+        }
+        .desk-btn {
+            width: 100%;
+            height: 300px;
+            background-size: cover; /* Cover the button fully */
+            background-position: center; /* Center the background image */
+            transition: transform 0.3s ease; /* Add a smooth transition effect for scaling */
+        }
+
+        .desk-btn:hover {
+            transform: scale(1.05); /* Scale the button by 10% on hover */
+        }
+        .row{
+            width: 100%;
+        }
+
+
+    </style>
     <div>
         {% include 'custom_templates/navbar.html.twig' %}
     </div>
@@ -10,25 +39,31 @@
                     style="color: #579e2f">{{ roomName }}</span> for {{ date }}</h2>
 
     </div>
-    <div class="room-list">
+    <div class="desk-list">
         <ul>
             <div class="row">
                 {% for desk in desks %}
-                    <form method="post" action="{{ path('deskReservation') }}">
-                        <input type="hidden" name="date" value="{{ date }}">
-                        <input type="hidden" name="roomName" value="{{ roomName }}">
-                        <input type="hidden" name="deskId" value="{{ desk.id }}">
-                        <input type="hidden" name="usersName" value="{{ usersName }}">
-                        <button class="desk-btn" type="submit">
-                            <li class="rooms" style="background-image: url('{{ asset('images/' ~ desk.image) }}');height: 250px; background-size: cover;">
-                                <h3>{{ desk.id }}</h3>
-                            </li>
-                        </button>
-                    </form>
+                <form method="post" class="desk-form" action="{{ path('deskReservation') }}">
+                    <input type="hidden" name="date" value="{{ date }}">
+                    <input type="hidden" name="roomName" value="{{ roomName }}">
+                    <input type="hidden" name="deskId" value="{{ desk.id }}">
+                    <input type="hidden" name="usersName" value="{{ usersName }}">
+                    <button class="desk-btn" type="submit" style="background-image: url('{{ asset('images/' ~ desk.image) }}');">
+                        <li class="room" style="height: 250px;">
+                            <h3 class="room-name">{{ desk.id }}</h3>
+                        </li>
+                    </button>
+                </form>
+                {% if loop.index % 2 == 0 or loop.last %}
+            </div>
+            <div class="row">
+                {% endif %}
                 {% endfor %}
             </div>
         </ul>
     </div>
+
+
 
 
 
