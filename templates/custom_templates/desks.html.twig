@@ -46,14 +46,13 @@
         <ul>
             <div class="row">
                 {% for desk in desks %}
-                <form method="post" class="desk-form" action="{{ path('deskReservation') }}">
+                <form method="post" class="desk-form" id="form-{{ desk.id }}" action="{{ path('deskReservation') }}">
                     <input type="hidden" name="date" value="{{ date }}">
                     <input type="hidden" name="roomName" value="{{ roomName }}">
                     <input type="hidden" name="deskId" value="{{ desk.id }}">
                     <input type="hidden" name="usersName" value="{{ usersName }}">
                     <li>
-                    <button class="desk-btn" type="submit" style="background-image: url('{{ asset('images/' ~ desk.image) }}');">
-                    </button>
+                        <button onclick="confirmReservation({{ desk.id }})" class="desk-btn" type="button" style="background-image: url('{{ asset('images/' ~ desk.image) }}');"></button>
                         <h3 style="margin-top: 15px">Desk# {{ desk.id }}</h3>
                         <h5>{{ desk.name }}</h5>
                     </li>
@@ -66,6 +65,15 @@
             </div>
         </ul>
     </div>
+
+
+    <script>
+        function confirmReservation(deskId) {
+            if (confirm("Are you sure you want to make a reservation for Desk #" + deskId + "?")) {
+                document.getElementById('form-' + deskId).submit();
+            }
+        }
+    </script>
 
 
 
