@@ -158,6 +158,19 @@ class BookingController extends AbstractController
                     $rooms[] = $row;
                 }
             }
+            $sql = "SELECT r.id AS reservation_id, d.name AS desk_name, d.id AS desk_id, r.reservation_time, r.user_id, ro.name AS room_name
+        FROM reservations r
+        INNER JOIN desks d ON r.desk_id = d.id
+        INNER JOIN rooms ro ON d.room_id = ro.id
+        WHERE r.user_id = $userId
+        ";
+
+            $result = $conn->query($sql);
+
+            if ($result) {
+                $reservations = $result->fetch_all(MYSQLI_ASSOC);
+//            dd($reservations);
+            }
 
 //            dd($thisDate, 'moinn');
             return $this->render('custom_templates/bookingForm.html.twig', [
@@ -168,6 +181,7 @@ class BookingController extends AbstractController
                 'pikedDate' => $thisDate,
                 'noReservationCount' => $noReservationCount,
                 'freeDeskCounts' => $freeDeskCounts,
+                'reservations' => $reservations
             ]);
         }
 

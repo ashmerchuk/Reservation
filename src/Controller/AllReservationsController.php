@@ -43,8 +43,6 @@ class AllReservationsController extends AbstractController
 
         if ($result) {
             $reservations = $result->fetch_all(MYSQLI_ASSOC);
-        } else {
-            // Handle the query error
         }
 
         $sql = "SELECT name, email FROM users WHERE id = $userId";
@@ -97,15 +95,16 @@ class AllReservationsController extends AbstractController
 
         if ($result) {
             $reservations = $result->fetch_all(MYSQLI_ASSOC);
-        } else {
-            // Handle the query error
+//            dd($reservations);
         }
+
         $usersEmail = $request->get('email');
 //        dd($usersEmail);
         $sql = "SELECT name, email FROM users WHERE email = '$usersEmail'";
         $result = $conn->query($sql);
         if($result){
             $row = $result->fetch_assoc();
+//            dd($row);
             $userName = $row['name'];
             $userEmail = $row['email'];
         }

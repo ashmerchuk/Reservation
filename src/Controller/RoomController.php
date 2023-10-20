@@ -98,8 +98,20 @@ class RoomController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-//        dd($desksImage, $desksId);
-//        dd($desksId);
+
+        $sql = "SELECT r.id AS reservation_id, d.name AS desk_name, d.id AS desk_id, r.reservation_time, r.user_id, ro.name AS room_name
+        FROM reservations r
+        INNER JOIN desks d ON r.desk_id = d.id
+        INNER JOIN rooms ro ON d.room_id = ro.id
+        WHERE r.user_id = $userId
+        ";
+
+        $result = $conn->query($sql);
+
+        if ($result) {
+            $reservations = $result->fetch_all(MYSQLI_ASSOC);
+//            dd($reservations);
+        }
 
 
         return $this->render('custom_templates/desks.html.twig', [
@@ -108,7 +120,8 @@ class RoomController extends AbstractController
             'email' => $usersEmail,
             'date' => $pikedDate,
             'roomName' => $roomName,
-            'desks' => $desks
+            'desks' => $desks,
+            'reservations' => $reservations
         ]);
     }
 }
