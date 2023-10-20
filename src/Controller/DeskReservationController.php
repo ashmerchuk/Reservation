@@ -110,9 +110,19 @@ class DeskReservationController extends AbstractController
 
         $result = $conn->query($sql);
 
+        $today = date("Y-m-d");
         if ($result) {
             $reservations = $result->fetch_all(MYSQLI_ASSOC);
-//            dd($reservations);
+            foreach ($reservations as $reservation) {
+                $reservationTime = $reservation['reservation_time'];
+
+                if ($reservationTime < $today) {
+                    $reservationId = $reservation['reservation_id'];
+                    // Delete past reservation from the database
+                    $sql = "DELETE FROM reservations WHERE id = $reservationId";
+                    $conn->query($sql);
+                }
+            }
         }
 
 
@@ -205,7 +215,9 @@ class DeskReservationController extends AbstractController
             $freeDeskCounts = $resultFreeDeskCount->fetch_all(MYSQLI_ASSOC);
 //            dd($freeDeskCounts);
 
-
+            $today = date("Y-m-d");
+            $sql = "DELETE FROM reservations WHERE reservation_time < '$today'";
+            $conn->query($sql);
 
             $userId = $_SESSION['user_id'];
             $sql = "SELECT * FROM `users` WHERE id = '$userId'";
@@ -316,6 +328,10 @@ class DeskReservationController extends AbstractController
         }
 
 //        dd('mo');
+        $today = date("Y-m-d");
+        $sql = "DELETE FROM reservations WHERE reservation_time < '$today'";
+        $conn->query($sql);
+
         return $this->render('custom_templates/bookingForm.html.twig', [
             'userId' => $userId,
             'usersName' => $usersName,

@@ -108,11 +108,20 @@ class RoomController extends AbstractController
 
         $result = $conn->query($sql);
 
+        $today = date("Y-m-d");
         if ($result) {
             $reservations = $result->fetch_all(MYSQLI_ASSOC);
-//            dd($reservations);
-        }
+            foreach ($reservations as $reservation) {
+                $reservationTime = $reservation['reservation_time'];
 
+                if ($reservationTime < $today) {
+                    $reservationId = $reservation['reservation_id'];
+                    // Delete past reservation from the database
+                    $sql = "DELETE FROM reservations WHERE id = $reservationId";
+                    $conn->query($sql);
+                }
+            }
+        }
 
         return $this->render('custom_templates/desks.html.twig', [
             'userId' => $userId,
