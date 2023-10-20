@@ -21,12 +21,6 @@ home:
     path: /
     methods: [GET, POST]
     controller: App\Controller\HomeController::home
-
-#picked_date:
-#    path: /picked_date
-#    methods: POST
-#    controller: App\Controller\BookingController::pikedDate
-
 rooms:
     path: /rooms
     methods: [GET, POST]

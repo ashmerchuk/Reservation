@@ -16,6 +16,7 @@ class BookingController extends AbstractController
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
+//        dd('moin');
 //        dd($_SESSION['user_id']);
         if ($request->getMethod() == 'GET') {
 

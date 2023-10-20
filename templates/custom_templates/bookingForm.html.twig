@@ -51,7 +51,8 @@
                         <form method="post" action="{{ path('rooms', {'room_id': room.room_id}) }}" class="room-form">
                             <input type="hidden" name="pikedDate" value="{{ pikedDate }}">
                             <button class="room-btn" type="submit">
-                                <li class="rooms" style="background-image: url('{{ asset('images/' ~ room.room_image) }}');height: 250px; background-size: cover;">
+                                <li class="rooms"
+                                    style="background-image: url('{{ asset('images/' ~ room.room_image) }}');height: 250px; background-size: cover;">
                                     <h3 class="room-name">{{ room.room_name }}</h3>
                                     <div class="free-desks">
                                         (Free Desks: {{ room.free_desk_count }})

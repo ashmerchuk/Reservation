@@ -11,8 +11,15 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class LoginController extends AbstractController
 
 {
-    public function logIn(): Response
+    public function login(): Response
     {
+
+//        dd($_SESSION['user_id']);
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_destroy();
+            return $this->redirectToRoute('login');
+        }
+
         return $this->render(
             'custom_templates/login.html.twig'
         );
@@ -109,6 +116,8 @@ class LoginController extends AbstractController
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_destroy();
         }
+
+//        dd('lo');
         return $this->redirectToRoute('login');
     }
 };
