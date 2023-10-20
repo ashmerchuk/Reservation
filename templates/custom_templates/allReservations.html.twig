@@ -1,16 +1,94 @@
 {% extends './base.html.twig' %}
 
 {% block body %}
+
+    <style>/* Modal Styles */
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            position: absolute;
+            width: 30%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .confirm-button{
+            width: 40%;
+            background-color: #44a046; /* Confirm button color */
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .cancel-button {
+            width: 40%;
+            background-color: #d83a2f; /* Confirm button color */
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .cancel-button:hover {
+            width: 40%;
+            background-color: #ffffff;
+            color:  #d83a2f;
+            border: 1px solid #d83a2f; /* Add a border with the desired color */
+            border-radius: 5px; /* Adjust the border radius as needed */
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+
+        /* Responsive design to make the buttons stack on smaller screens */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 80%; /* Adjust the width for smaller screens */
+            }
+
+            .confirm-button,
+            .cancel-button {
+                width: 100%;
+            }
+        }
+
+    </style>
     <div>
         {% include 'custom_templates/navbar.html.twig' %}
     </div>
+
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h5>Are you sure you want to delete this reservation?</h5>
+            <button id="confirmBtn" class="confirm-button">Confirm</button>
+            <button id="cancelBtn" class="cancel-button">Cancel</button>
+        </div>
+    </div>
+
 
     {% if reservations|length > 0 %}
         <table class="styled-table">
             <thead>
             <tr class="active-row">
                 <th>Desk Number</th>
-                <th>Desk Name</th>
+                <th>Desk Descriptions</th>
                 <th>Room Name</th>
                 <th>Reservation Time</th>
                 <th>Edit</th>
@@ -43,12 +121,31 @@
         <h2 style="text-align: center">No reservations found</h2>
     {% endif %}
     <script>
+        // JavaScript to show the modal when the delete button is clicked
         function confirmDelete(reservation_id) {
-            if (confirm("Are you sure you want to delete this reservation?")) {
+            var modal = document.getElementById('confirmationModal');
+            var confirmBtn = document.getElementById('confirmBtn');
+            var cancelBtn = document.getElementById('cancelBtn');
+
+            modal.style.display = 'block';
+
+            confirmBtn.onclick = function() {
                 // If the user confirms, submit the form
                 document.getElementById('form-' + reservation_id).submit();
-            }
+            };
+
+            cancelBtn.onclick = function() {
+                modal.style.display = 'none';
+            };
+
+            // Close the modal if the user clicks outside the modal content
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
         }
+
     </script>
 {% endblock %}
 
