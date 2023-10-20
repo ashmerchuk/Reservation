@@ -30,7 +30,70 @@
         li{
              list-style: none
          }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
 
+        .modal-content {
+            position: absolute;
+            width: 30%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .confirm-button{
+            width: 40%;
+            background-color: #4cb34e; /* Confirm button color */
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .cancel-button {
+            width: 40%;
+            background-color: #ed4236;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .cancel-button:hover {
+            width: 40%;
+            background-color: #ffffff;
+            color: #ed4236;
+            border: 1px solid #ed4236;
+            border-radius: 5px; /* Adjust the border radius as needed */
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+
+        /* Responsive design to make the buttons stack on smaller screens */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 80%; /* Adjust the width for smaller screens */
+            }
+
+            .confirm-button,
+            .cancel-button {
+                width: 100%;
+            }
+        }
 
     </style>
     <div>
@@ -66,13 +129,41 @@
         </ul>
     </div>
 
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h5>Are you sure you want to make reservation of this desk?</h5>
+            <button id="confirmBtn" class="confirm-button">Confirm</button>
+            <button id="cancelBtn" class="cancel-button">Cancel</button>
+        </div>
+    </div>
+
 
     <script>
+        // JavaScript to show the modal when the delete button is clicked
         function confirmReservation(deskId) {
-            if (confirm("Are you sure you want to make a reservation for Desk #" + deskId + "?")) {
+            var modal = document.getElementById('confirmationModal');
+            var confirmBtn = document.getElementById('confirmBtn');
+            var cancelBtn = document.getElementById('cancelBtn');
+
+            modal.style.display = 'block';
+
+            confirmBtn.onclick = function() {
+                // If the user confirms, submit the form
                 document.getElementById('form-' + deskId).submit();
-            }
+            };
+
+            cancelBtn.onclick = function() {
+                modal.style.display = 'none';
+            };
+
+            // Close the modal if the user clicks outside the modal content
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
         }
+
     </script>
 
 
