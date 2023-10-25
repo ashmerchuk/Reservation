@@ -1,26 +1,32 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+
 login:
     path: /login
     methods: [POST, GET]
     controller: App\Controller\LoginController::login
+
 sign_up:
     path: /sign_up
     methods: [POST, GET]
     controller: App\Controller\SignUpController::signUp
+
 booking:
     path: /booking
     methods: [POST, GET]
     controller: App\Controller\BookingController::booking
+
 logout:
     path: /logout
     methods: GET
     controller: App\Controller\LoginController::logout
+
 home:
     path: /
     methods: [GET, POST]
     controller: App\Controller\HomeController::home
+
 rooms:
     path: /rooms
     methods: [GET, POST]
@@ -45,3 +51,23 @@ sign_in:
     path: /signIn
     methods: [ POST, GET ]
     controller: App\Controller\SignInController::signIn
+
+forgotPassword:
+    path: /forgotPassword
+    methods: [ POST, GET ]
+    controller: App\Controller\LoginController::forgotPassword
+
+sendForgotPassword:
+    path: /sendForgotPassword
+    methods: POST
+    controller: App\Controller\LoginController::sendForgotPassword
+
+reset_page:
+    path: /reset_page
+    methods: GET
+    controller: App\Controller\LoginController::resetPage
+
+reset_type_new_password:
+    path: /reset_type_new_password
+    methods: POST
+    controller: App\Controller\LoginController::resetTypeNewPassword

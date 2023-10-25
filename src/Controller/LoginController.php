@@ -120,4 +120,21 @@ class LoginController extends AbstractController
 //        dd('lo');
         return $this->redirectToRoute('login');
     }
+
+    public function forgotPassword (): Response{
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
+
+        return $this->render('custom_templates/forgotPassword.twig');
+    }
+
+    public function sendForgotPassword (Request $request): Response{
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
+
+//        dd($request->get('emailForResetPassword'));
+        return $this->render('custom_templates/sendForgotPassword.twig');
+    }
 };
