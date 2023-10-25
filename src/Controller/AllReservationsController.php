@@ -30,6 +30,9 @@ class AllReservationsController extends AbstractController
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
+        if(!isset($_SESSION['user_id'])) {
+            return $this->redirectToRoute('login');
+        }
         $userId = $_SESSION['user_id'];
 
         $sql = "SELECT r.id AS reservation_id, d.name AS desk_name, d.id AS desk_id, r.reservation_time, r.user_id, ro.name AS room_name

@@ -12,9 +12,11 @@ class HomeController extends AbstractController
 {
     public function home(Request $request, SessionInterface $session): Response
     {
-//        if (session_status() !== PHP_SESSION_ACTIVE) {
-//            session_start();
-//        }
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+//            dd($_SESSION['user_id']);
+//            dd('mo');
+        }
 
 //        dd($_SESSION['user_id']);
         $servername = "reservation-mysql";
@@ -28,12 +30,12 @@ class HomeController extends AbstractController
             die("Connection failed: " . $conn->connect_error);
         }
 
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
+//        if (session_status() !== PHP_SESSION_ACTIVE) {
+//            session_start();
 //            dd('qw');
 //            $userId = $_SESSION['user_id'];
 //            dd($_SESSION['user_id']);
-        }
+//        }
 //        else{
 //            session_destroy();
 //            session_start();
@@ -45,6 +47,9 @@ class HomeController extends AbstractController
 
 
 //        $userId = $_SESSION['user_id'];
+        if($usersEmail === null && !isset($_SESSION['user_id'])) {
+            return $this->redirectToRoute('login');
+        }
         if($usersEmail !== null){
             $sql = "SELECT * FROM `users` WHERE email = '$usersEmail'";
 //            $userId = $_SESSION['user_id'];
