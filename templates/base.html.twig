@@ -51,7 +51,8 @@
                 border-radius: 5px;
             }
 
-            button {
+
+            button .successButton{
                 width: 100%;
                 padding: 10px;
                 background-color: #45a049;
@@ -63,7 +64,7 @@
                 font-family: 'Arial', sans-serif;
             }
 
-            button:hover {
+            button .successButton:hover {
                 color: #45a049;
                 background-color: #fff;
                 border: 1px solid #45a049;
@@ -472,6 +473,24 @@
                 color: #f4f4f4;
                 background-color: #f4f4f4;
                 border: 0 solid #f4f4f4;
+            }
+            .successButton{
+                width: 28%;
+                padding: 10px;
+                margin: 3% 0 3% 55%;
+                background-color: #198754;
+                color: #fff;
+                border: 1px solid #198754;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 18px; /* Adjust the font size as needed */
+                font-family: 'Arial', sans-serif; /* Change the font family */
+            }
+
+            .successButton:hover {
+                color: #198754;
+                background-color: #fff;
+                border: 1px solid #198754; /* Add the red border */
             }
         </style>
     {% endblock %}

@@ -67,7 +67,7 @@ resetPage:
     methods: GET
     controller: App\Controller\LoginController::resetPage
 
-reset_type_new_password:
-    path: /reset_type_new_password
+insertNewPassword:
+    path: /insertNewPassword
     methods: POST
-    controller: App\Controller\LoginController::resetTypeNewPassword
+    controller: App\Controller\LoginController::insertNewPassword

@@ -126,7 +126,6 @@ class LoginController extends AbstractController
             session_destroy();
         }
 
-//        dd('lo');
         return $this->redirectToRoute('login');
     }
 
@@ -140,6 +139,18 @@ class LoginController extends AbstractController
 
     public function  sendForgotPassword(Request $request, SessionInterface $session, MailerInterface $mailer): Response
     {
+        $servername = "reservation-mysql";
+        $username = "root";
+        $password = "test_pass";
+
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, 'reservation');
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
         $usersEmail = $request->get('emailForResetPassword');
 
 //        dd($usersEmail);
@@ -164,10 +175,19 @@ class LoginController extends AbstractController
 
         $mailer->send($email);
 
+        $sql = "SELECT * FROM users WHERE email = '$usersEmail'";
+        $result = $conn->query($sql);
+        if($result){
+            $row = $result->fetch_assoc();
+            $userId = $row['id'];
+        }
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+            $_SESSION['user_id'] = $userId;
+        }
+
         $session->getFlashBag()->add('success', 'Check your email to reset password');
-        return $this->render('custom_templates/login.html.twig',[
-            $usersEmail => 'usersEmail'
-        ]);
+        return $this->render('custom_templates/login.html.twig');
     }
     private function getCurrentURL(): string
     {
@@ -179,9 +199,42 @@ class LoginController extends AbstractController
 
     public function resetPage(): Response
     {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         return $this->render(
             'custom_templates/resetPage.twig'
         );
+    }
+
+    public function insertNewPassword(Request $request, SessionInterface $session): Response
+    {
+        $servername = "reservation-mysql";
+        $username = "root";
+        $password = "test_pass";
+
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, 'reservation');
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        $userId = $_SESSION['user_id'];
+
+        $newPassword = $request->get('newPassword');
+        $confirmNewPassword = $request->get('confirmNewPassword');
+
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $sql = "UPDATE `users` SET password = '$hashedPassword' WHERE id = '$userId'";
+        $result = $conn->query($sql);
+        $conn->close();
+        $session->getFlashBag()->add('success_account_creating', 'You have successfully changed your password');
+        return new RedirectResponse('signIn');
     }
 
 };
