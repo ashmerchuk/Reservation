@@ -7,6 +7,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Mime\Email;
 
 class LoginController extends AbstractController
 
@@ -129,12 +134,48 @@ class LoginController extends AbstractController
         return $this->render('custom_templates/forgotPassword.twig');
     }
 
-    public function sendForgotPassword (Request $request): Response{
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            session_destroy();
-        }
+    public function  sendForgotPassword(Request $request, SessionInterface $session, MailerInterface $mailer): Response
+    {
+        $usersEmail = $request->get('emailForResetPassword');
 
-//        dd($request->get('emailForResetPassword'));
-        return $this->render('custom_templates/sendForgotPassword.twig');
+//        dd($usersEmail);
+        $resetToken = uniqid();
+
+        $url = $this->getCurrentURL();
+        $newUrl = str_replace("/sendForgotPassword", "", $url);
+
+        $resetLink = $newUrl ."/resetPage?token=" . urlencode($resetToken);
+        $subject = "Password Reset";
+        $message = "Click the following link to reset your password: <a href=\"$resetLink\">Reset Password</a>";
+
+        $transport = Transport::fromDsn('smtp://johndoegofer@gmail.com:fpidtafftygiqccr@smtp.gmail.com:587');
+        // Create a Mailer object
+        $mailer = new Mailer($transport);
+
+        $email = (new Email())
+            ->from('johndoegofer@gmail.com')
+            ->to($usersEmail)
+            ->subject($subject)
+            ->html($message);
+
+        $mailer->send($email);
+
+        $session->getFlashBag()->add('check_email', 'Check your email to reset password');
+        return $this->render('custom_templates/resetPage.twig');
     }
+    private function getCurrentURL(): string
+    {
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+        $host = $_SERVER['HTTP_HOST'];
+        $requestUri = $_SERVER['REQUEST_URI'];
+        return $protocol . $host . $requestUri;
+    }
+
+    public function resetPage(): Response
+    {
+        return $this->render(
+            'custom_templates/resetPage.twig'
+        );
+    }
+
 };

@@ -5,9 +5,9 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.1",
-        "ext-mysqli": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-mysqli": "*",
         "doctrine/doctrine-bundle": "^2.10",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.16",

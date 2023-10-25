@@ -62,8 +62,8 @@ sendForgotPassword:
     methods: POST
     controller: App\Controller\LoginController::sendForgotPassword
 
-reset_page:
-    path: /reset_page
+resetPage:
+    path: /resetPage
     methods: GET
     controller: App\Controller\LoginController::resetPage
 
