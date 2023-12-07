@@ -31,7 +31,7 @@ services:
     container_name: reservation-mysql
     image: mysql:latest
     ports:
-      - 3306:3306
+      - 3397:3306
     volumes:
       - ./data/db:/var/lib/mysql
     environment:

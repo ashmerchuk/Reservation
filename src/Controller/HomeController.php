@@ -18,45 +18,35 @@ class HomeController extends AbstractController
 //            dd('mo');
         }
 
-//        dd($_SESSION['user_id']);
+
         $servername = "reservation-mysql";
         $username = "root";
         $password = "test_pass";
 // Create connection
         $conn = new mysqli($servername, $username, $password, 'reservation');
 
+        // Check if the 'reservation' database exists
+        $query = "CREATE DATABASE IF NOT EXISTS reservation";
+        $conn->query($query);
+
+// Select the 'reservation' database
+        $conn->select_db("reservation");
+
 // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-//        if (session_status() !== PHP_SESSION_ACTIVE) {
-//            session_start();
-//            dd('qw');
-//            $userId = $_SESSION['user_id'];
-//            dd($_SESSION['user_id']);
-//        }
-//        else{
-//            session_destroy();
-//            session_start();
-//        }
-//        dd('abc');
-//        dd($_SESSION['user_id']);
         $usersEmail = $request->get('signInEmail');
-//        dd($usersEmail);
-
-
-//        $userId = $_SESSION['user_id'];
-        if($usersEmail === null && !isset($_SESSION['user_id'])) {
+        if ($usersEmail === null && !isset($_SESSION['user_id'])) {
             return $this->redirectToRoute('login');
         }
-        if($usersEmail !== null){
+        if ($usersEmail !== null) {
             $sql = "SELECT * FROM `users` WHERE email = '$usersEmail'";
 //            $userId = $_SESSION['user_id'];
             $stmt = $conn->prepare($sql);
             $result = $conn->query($sql);
-        }
-        else{
+        } else {
 //            dd($_SESSION['user_id']);
             $userId = $_SESSION['user_id'];
             $sql = "SELECT * FROM `users` WHERE id = $userId";
@@ -72,10 +62,10 @@ class HomeController extends AbstractController
             if (session_status() !== PHP_SESSION_ACTIVE) {
                 session_start();
                 $_SESSION['user_id'] = $userId;
-            }else{
+            } else {
                 $_SESSION['user_id'] = $userId;
             }
-        }else{
+        } else {
             return $this->redirectToRoute('login');
         }
 
@@ -117,16 +107,23 @@ class HomeController extends AbstractController
                 $rooms[] = $row;
             }
         }
+        $createTableReservations = "CREATE TABLE IF NOT EXISTS `reservations` (`id` int AUTO_INCREMENT,`desk_id` int,`reservation_time` date, `user_id` int, created_date date, PRIMARY KEY (id));";
 
-        $sql = "SELECT r.id AS reservation_id, d.name AS desk_name, d.id AS desk_id, r.reservation_time, r.user_id, ro.name AS room_name
+        $result = $conn->query($createTableReservations);
+
+        if ($result) {
+            $sql = "SELECT r.id AS reservation_id, d.name AS desk_name, d.id AS desk_id, r.reservation_time, r.user_id, ro.name AS room_name
         FROM reservations r
         INNER JOIN desks d ON r.desk_id = d.id
         INNER JOIN rooms ro ON d.room_id = ro.id
         WHERE r.user_id = $userId
         ";
-
-        $result = $conn->query($sql);
-
+            $createTableDesks = "CREATE TABLE IF NOT EXISTS `desks` (`id` int AUTO_INCREMENT,`room_id` int, `name` varchar(255), `image` varchar(255),PRIMARY KEY (id), FOREIGN KEY (room_id) REFERENCES rooms(id));";
+            $resultTableDesks = $conn->query($createTableDesks);
+            if ($resultTableDesks) {
+                $result = $conn->query($sql);
+            }
+        }
         $today = date("Y-m-d");
         if ($result) {
             $reservations = $result->fetch_all(MYSQLI_ASSOC);
@@ -142,8 +139,7 @@ class HomeController extends AbstractController
             }
         }
 
-//        dd($rooms);
-        return $this->render('custom_templates/bookingForm.html.twig',[
+        return $this->render('custom_templates/bookingForm.html.twig', [
             'userId' => $userId,
             'usersName' => $usersName,
             'email' => $usersEmail,
