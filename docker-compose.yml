@@ -34,7 +34,9 @@ services:
       - 3397:3306
     volumes:
       - ./data/db:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: 'test_pass' # TODO: Change this
+    environment: # Passwords were changed only for Andrii Shmerchuk Documentations photo
+      MYSQL_ROOT_PASSWORD: 'test_pass'
       MYSQL_USER: 'test'
       MYSQL_PASS: 'pass'
+
+
