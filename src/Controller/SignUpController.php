@@ -14,30 +14,19 @@ class SignUpController extends AbstractController
 {
     public function signUp(Request $request, SessionInterface $session): Response
     {
-
-        if ($request->getMethod() == 'GET') {
-
-            return $this->render('custom_templates/signUp.html.twig', [
-//                'userId' => $userId,
-//                'usersName' => $usersName,
-//                'email' => $usersEmail,
-//                'rooms' => $rooms
-            ]);
-        }
-
-//        dd('moin');
         $usersEmail = $request->get('signUpEmail');
         $usersName = $request->get('signUpName');
         $usersPassword = $request->get('signUpPassword');
 
+        // All Passwords were changed for Andrii Shmerchuk Documentation photo
         $servername = "reservation-mysql";
         $username = "root";
         $password = "test_pass";
 
-// Create connection
+        // Create connection
         $conn = new mysqli($servername, $username, $password, 'reservation');
 
-// Check connection
+        // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
@@ -62,8 +51,18 @@ class SignUpController extends AbstractController
                 return new RedirectResponse('login');
             }
         }
-
          return new RedirectResponse('login');
     }
+}
 
+
+
+if ($request->getMethod() == 'GET') {
+
+    return $this->render('custom_templates/signUp.html.twig', [
+//                'userId' => $userId,
+//                'usersName' => $usersName,
+//                'email' => $usersEmail,
+//                'rooms' => $rooms
+    ]);
 }
