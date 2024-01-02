@@ -14,25 +14,22 @@ class HomeController extends AbstractController
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
-//            dd($_SESSION['user_id']);
-//            dd('mo');
         }
-
 
         $servername = "reservation-mysql";
         $username = "root";
         $password = "test_pass";
-// Create connection
+        // Create connection
         $conn = new mysqli($servername, $username, $password, 'reservation');
 
         // Check if the 'reservation' database exists
         $query = "CREATE DATABASE IF NOT EXISTS reservation";
         $conn->query($query);
 
-// Select the 'reservation' database
+        // Select the 'reservation' database
         $conn->select_db("reservation");
 
-// Check connection
+        // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
@@ -43,11 +40,9 @@ class HomeController extends AbstractController
         }
         if ($usersEmail !== null) {
             $sql = "SELECT * FROM `users` WHERE email = '$usersEmail'";
-//            $userId = $_SESSION['user_id'];
             $stmt = $conn->prepare($sql);
             $result = $conn->query($sql);
         } else {
-//            dd($_SESSION['user_id']);
             $userId = $_SESSION['user_id'];
             $sql = "SELECT * FROM `users` WHERE id = $userId";
             $stmt = $conn->prepare($sql);

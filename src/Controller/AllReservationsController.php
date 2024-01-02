@@ -14,19 +14,18 @@ class AllReservationsController extends AbstractController
 {
     public function allReservations(Request $request, SessionInterface $session): Response
     {
-//        dd('moin');
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-//            dd('moin');
+
         $servername = "reservation-mysql";
         $username = "root";
         $password = "test_pass";
 
-// Create connection
+        // Create connection
         $conn = new mysqli($servername, $username, $password, 'reservation');
 
-// Check connection
+        // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
@@ -64,20 +63,18 @@ class AllReservationsController extends AbstractController
     }
     public function deleteReservations(Request $request, SessionInterface $session): Response
     {
-//        dd($request->get('email'));
-//        dd($request->get('reservation_id'));
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-//            dd('moin');
+
         $servername = "reservation-mysql";
         $username = "root";
         $password = "test_pass";
 
-// Create connection
+        // Create connection
         $conn = new mysqli($servername, $username, $password, 'reservation');
 
-// Check connection
+        // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
@@ -113,17 +110,14 @@ class AllReservationsController extends AbstractController
 
 
         $usersEmail = $request->get('email');
-//        dd($usersEmail);
         $sql = "SELECT name, email FROM users WHERE email = '$usersEmail'";
         $result = $conn->query($sql);
         if($result){
             $row = $result->fetch_assoc();
-//            dd($row);
             $userName = $row['name'];
             $userEmail = $row['email'];
         }
 
-//        dd('as');
         return $this->render('custom_templates/allReservations.html.twig', [
             'reservations' => $reservations, // Pass the reservations data to the template
             'usersName' => $userName,

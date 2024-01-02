@@ -21,7 +21,7 @@ class SignUpController extends AbstractController
         $username = "root";
         $password = "test_pass";
 
-// Create connection
+        // Create connection
         $conn = new mysqli($servername, $username, $password, 'reservation');
 
         // Check connection

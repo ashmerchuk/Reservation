@@ -16,19 +16,17 @@ class BookingController extends AbstractController
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-//        dd('moin');
-//        dd($_SESSION['user_id']);
+
         if ($request->getMethod() == 'GET') {
 
-//            dd('moin');
             $servername = "reservation-mysql";
             $username = "root";
             $password = "test_pass";
 
-// Create connection
+            // Create connection
             $conn = new mysqli($servername, $username, $password, 'reservation');
 
-// Check connection
+            // Check connection
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
@@ -94,22 +92,17 @@ class BookingController extends AbstractController
             if ($result->num_rows > 0) {
                 $session->getFlashBag()->add('error', 'You have already reservation on this day');
                 return new RedirectResponse('/');
-//                dd('m');
-//                header("Location: home.php?error=already_reserved");
-//                exit;
             }
 
             if ($thisDate !== null && $thisDate !== "") {
                 // Step 1: Count the number of reservations for the given date
                 $sqlReservations = "SELECT COUNT(*) AS reservation_count FROM reservations WHERE reservation_time = '$thisDate'";
                 $resultReservations = $conn->query($sqlReservations);
-//                dd($resultReservations);
 
 
                 if ($resultReservations) {
                     $row = $resultReservations->fetch_assoc();
                     $reservationCount = $row['reservation_count'];
-//                    dd($reservationCount);
                     // Step 2: Count the number of desks with no reservations for the given date
                     $sqlNoReservations = "SELECT COUNT(*) AS no_reservation_count FROM desks WHERE id NOT IN (SELECT desk_id FROM reservations WHERE reservation_time = '$thisDate')";
                     $resultNoReservations = $conn->query($sqlNoReservations);
@@ -119,7 +112,6 @@ class BookingController extends AbstractController
                         $noReservationCount = $row['no_reservation_count'];
                     }
                 } else {
-                    // Handle SQL query error for reservations
                     echo "Error retrieving reservations count";
                 }
             }
@@ -133,7 +125,7 @@ class BookingController extends AbstractController
                                 GROUP BY r.id";
             $resultFreeDeskCount = $conn->query($sqlFreeDeskCount);
 
-// Fetch the results into an array
+            // Fetch the results into an array
             $freeDeskCounts = $resultFreeDeskCount->fetch_all(MYSQLI_ASSOC);
 
             $userId = $_SESSION['user_id'];
@@ -169,10 +161,8 @@ class BookingController extends AbstractController
 
             if ($result) {
                 $reservations = $result->fetch_all(MYSQLI_ASSOC);
-//            dd($reservations);
             }
 
-//            dd($thisDate, 'moinn');
             return $this->render('custom_templates/bookingForm.html.twig', [
                 'userId' => $userId,
                 'usersName' => $usersName,
@@ -193,10 +183,10 @@ class BookingController extends AbstractController
         $username = "root";
         $password = "test_pass";
 
-// Create connection
+        // Create connection
         $conn = new mysqli($servername, $username, $password, 'reservation');
 
-// Check connection
+        // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
@@ -206,7 +196,6 @@ class BookingController extends AbstractController
         $result = $conn->query($sql);
         if ($result) {
             $row = $result->fetch_assoc();
-//            dd($row);
             $usersName = $row['name'];
             $usersEmail = $row['email'];
             if (session_status() !== PHP_SESSION_ACTIVE) {

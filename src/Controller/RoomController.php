@@ -24,31 +24,13 @@ class RoomController extends AbstractController
         $username = "root";
         $password = "test_pass";
 
-// Create connection
+        // Create connection
         $conn = new mysqli($servername, $username, $password, 'reservation');
 
-// Check connection
+        // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-
-//        $sql = "SELECT id FROM reservations WHERE user_id = ? AND reservation_time = ?";
-//        $stmt = $conn->prepare($sql);
-//        $stmt->bind_param("ss", $userId, $pickedDate);
-//        $stmt->execute();
-//        $result = $stmt->get_result();
-//
-//        // If a reservation is found, redirect with an error message
-//        if ($result->num_rows > 0) {
-//            dd('moin');
-//            header("Location: home.php?error=already_reserved");
-//            exit;
-//        }else{
-//            dd('no moin');
-//        }
-
-
-
 
         $sql = "SELECT * FROM `users` WHERE id = '$userId'";
         $stmt = $conn->prepare($sql);
